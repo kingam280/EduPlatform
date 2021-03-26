@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
+import { addTaskToProject } from '../../app/tasksReducer';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -11,6 +12,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 const AddTask = () => {
     const users = useSelector( (state:RootState) => state.tasks.users)
+    const project = useSelector( (state:RootState) => state.tasks.projectId)
+    const dispatch = useDispatch()
     const [open, setOpen] = useState<boolean>(false);
     const [task, setTask] = useState<string>('');
     const [user, setUser] = useState<string>('');
@@ -42,9 +45,15 @@ const AddTask = () => {
     }
 
     const addTask = () => {
-        console.log('task', task);
-        console.log('deadline', new Date(date).getTime());
-        console.log('user', user)
+        const data = {
+            projectId: project,
+            userId: user,
+            name: task,
+            description: 'nothing to add',
+            deadline: new Date(date).getTime()
+        };
+
+        dispatch(addTaskToProject(data))
     };
 
     return (

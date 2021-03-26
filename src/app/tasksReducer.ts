@@ -1,11 +1,16 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from '../config/axios';
 
+export interface Task {
+    name: string,
+    deadline: number,
+    done?: boolean,
+    userId?: string,
+    projectId?: string
+}
+
 export interface Tasks {
-    [key:string]: {name: string,
-        deadline: number,
-        done: boolean,
-        user: string}
+    [key:string]: Task
 }
 
 export interface Users {
@@ -25,7 +30,7 @@ export interface TasksState {
 }
 
 export const initialState:TasksState = {
-    projectId: '604e0e83c87e48885cc62a0d',
+    projectId: '6050e4550272480015f40561',
     tasks: {},
     users: {},
     loading: false,
@@ -46,8 +51,8 @@ export const fetchTasksByProject = createAsyncThunk(
                     name: data[task].name,
                     deadline: data[task].deadline,
                     done: data[task].done,
-                    user: data[task].user
-                }
+                    userId: data[task].user
+                } 
             }
 
             return tasksList
@@ -82,13 +87,26 @@ export const fetchUsers = createAsyncThunk(
     }
 )
 
-// export const addTask = createAsyncThunk(
-//     'tasks/addTask',
-//     async (data) => {
-//         const add = axios.post('/tasks')
+export const addTaskToProject = createAsyncThunk(
+    'tasks/addTask',
+    async (data:Task) => {
+        const newTask = axios.post('/tasks', data)
+        .then(response => {
+            return {
+                [response.data._id]: {
+                    name: response.data.name,
+                    deadline: response.data.deadline,
+                    done: response.data.done,
+                    userId: response.data.user._id
+                } as Tasks
+            }
+        })
+        .catch( error => console.log(error));
+
+        return newTask
         
-//     }
-// )
+    }
+)
 
 const tasksReducer = createSlice({
     name: 'tasks',
@@ -132,10 +150,19 @@ const tasksReducer = createSlice({
         builder.addCase(fetchUsers.rejected, (state, action) => {
             state.error = true;
             state.loading = false
+        })
+        builder.addCase(addTaskToProject.pending, (state, action) => {
+            state.loading = true
         });
+        builder.addCase(addTaskToProject.rejected, (state, action) => {
+            state.error = true;
+            state.loading = false
+        });
+        builder.addCase(addTaskToProject.fulfilled, (state,action) => {
+            state.loading = false;
+            state.tasks = {...state.tasks, ...action.payload}
+        })
     }
-    }
-);
+})
 
-// export const {addTask, deleteTask, addUser, changeTaskStatus, changeTaskUser} = tasksReducer.actions;
 export default tasksReducer.reducer

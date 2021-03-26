@@ -20,9 +20,9 @@ const TaskList = () => {
             return <TaskItem  key={index} 
                 name={tasks[task].name} 
                 deadline={tasks[task].deadline}
-                user={users[tasks[task].user] ? 
-                        `${users[tasks[task].user].firstName} ${users[tasks[task].user].lastName}` 
-                        : null}
+                // user={tasks[task].userId ? 
+                //         `${users[tasks[task].userId!].firstName} ${users[tasks[task].userId!].lastName}` 
+                //         : null}
                  />
         })
     }
