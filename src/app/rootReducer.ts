@@ -1,7 +1,8 @@
-import { combineReducers } from '@reduxjs/toolkit'
+import { combineReducers } from '@reduxjs/toolkit';
+import tasksReducer from './tasksReducer';
 
 const rootReducer = combineReducers({
-    // here put reducers
+    tasks: tasksReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>
