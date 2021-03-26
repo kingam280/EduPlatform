@@ -8,16 +8,26 @@ export interface Tasks {
         user: string}
 }
 
+export interface Users {
+    [key:string]: {
+        firstName: string,
+        lastName: string,
+        role: string
+    }
+}
+
 export interface TasksState {
     projectId: string,
     tasks: Tasks,
+    users: Users,
     loading: boolean,
     error: boolean
 }
 
 export const initialState:TasksState = {
-    projectId: '6050e4550272480015f40561',
+    projectId: '604e0e83c87e48885cc62a0d',
     tasks: {},
+    users: {},
     loading: false,
     error: false
 }
@@ -46,7 +56,39 @@ export const fetchTasksByProject = createAsyncThunk(
         return tasks
 
     }
+);
+
+export const fetchUsers = createAsyncThunk(
+    'tasks/fetchUsers',
+    async () => {
+        const users = axios.get('/authorization')
+        .then( response => response.data)
+        .then( data => {
+            let usersList:Users= {};
+            for (let user in data) {
+                const userId:string = data[user]._id;
+                
+                usersList[userId] = {
+                    firstName: data[user].firstName,
+                    lastName: data[user].lastName,
+                    role: data[user].role,
+                }
+            }
+
+            return usersList
+        })
+
+        return users
+    }
 )
+
+// export const addTask = createAsyncThunk(
+//     'tasks/addTask',
+//     async (data) => {
+//         const add = axios.post('/tasks')
+        
+//     }
+// )
 
 const tasksReducer = createSlice({
     name: 'tasks',
@@ -73,14 +115,24 @@ const tasksReducer = createSlice({
             state.loading = true
         });
         builder.addCase(fetchTasksByProject.fulfilled, (state,action) => {
-            console.log(action.payload)
             state.loading = false
             state.tasks = action.payload
         });
         builder.addCase(fetchTasksByProject.rejected, (state, action) => {
             state.error = true;
             state.loading = false
-        })
+        });
+        builder.addCase(fetchUsers.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(fetchUsers.fulfilled, (state,action) => {
+            state.loading = false
+            state.users = action.payload
+        });
+        builder.addCase(fetchUsers.rejected, (state, action) => {
+            state.error = true;
+            state.loading = false
+        });
     }
     }
 );
