@@ -11,15 +11,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 const AddTask = () => {
     const users = useSelector( (state:RootState) => state.tasks.users)
-    // const dispatch = useDispatch();
     const [open, setOpen] = useState<boolean>(false);
     const [task, setTask] = useState<string>('');
     const [user, setUser] = useState<string>('');
     const [date, setDate] = useState<string>('');
-
-    // useEffect(() => {
-    //     dispatch(fetchUsers())
-    // }, [])
 
     const changeVisibilty = () => {
         setOpen(!open)
