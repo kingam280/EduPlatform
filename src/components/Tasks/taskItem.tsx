@@ -1,4 +1,5 @@
 import React from 'react';
+import RemoveTask from './removeTask';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import {Card, CardContent} from '@material-ui/core';
@@ -6,12 +7,13 @@ import {Card, CardContent} from '@material-ui/core';
 interface taskProps {
     name: string,
     deadline: number,
-    user?: string | null
+    user?: string | null,
+    id: string
 }
 
-const taskItem = ({name, deadline, user}: taskProps) => {
+const taskItem = ({name, deadline, user, id}: taskProps) => {
     return (
-        <Card>
+        <Card id={id}>
             <CardContent>
                 <h2>{name}</h2>
                 <time>Deadline: {deadline}</time>
@@ -24,6 +26,7 @@ const taskItem = ({name, deadline, user}: taskProps) => {
                         <AddIcon />
                     </Fab>
                 }
+                <RemoveTask id={id}/>
             </CardContent>
         </Card>
     )

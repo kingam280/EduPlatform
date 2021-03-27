@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
-import {fetchTasksByProject, fetchUsers} from '../../app/tasksReducer';
+import {fetchTasksByProject, fetchUsers, removeTaskFromProject} from '../../app/tasksReducer';
 import TaskItem from './taskItem';
 
 const TaskList = () => {
@@ -15,9 +15,15 @@ const TaskList = () => {
         dispatch(fetchUsers())
     }, [project, dispatch]);
 
+    // const removeTask = (id:string) => {
+    //     // dispatch(removeTaskFromProject(id))
+    //     console.log(id)
+    // }
+
     const projectTasks =  () => {
-        return Object.keys(tasks).map( (task, index) => {
-            return <TaskItem  key={index} 
+        return Object.keys(tasks).map( task => {
+            return <TaskItem  key={task} 
+                id={task}
                 name={tasks[task].name} 
                 deadline={tasks[task].deadline}
                 // user={tasks[task].userId ? 
@@ -26,6 +32,7 @@ const TaskList = () => {
                  />
         })
     }
+
     return (
         <section>
             {projectTasks()}

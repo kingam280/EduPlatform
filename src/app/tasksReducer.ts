@@ -97,7 +97,7 @@ export const addTaskToProject = createAsyncThunk(
                     name: response.data.name,
                     deadline: response.data.deadline,
                     done: response.data.done,
-                    userId: response.data.user._id
+                    userId: response.data.user ? response.data.user._id : null
                 } as Tasks
             }
         })
@@ -108,13 +108,21 @@ export const addTaskToProject = createAsyncThunk(
     }
 )
 
+export const removeTaskFromProject = createAsyncThunk(
+    'tasks.removeTask',
+    async (id:string) => {
+        axios.delete(`/tasks/${id}`)
+        .then( response => console.log(response))
+        .catch(error => console.log(error))
+
+        return id
+    }
+)
+
 const tasksReducer = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
-        // addTask (state, action) {
-        //     state.tasks[action.payload.id] = action.payload.data
-        // },
         // deleteTask (state,action) {
         //     delete state.tasks[action.payload.id]
         // },
@@ -161,7 +169,11 @@ const tasksReducer = createSlice({
         builder.addCase(addTaskToProject.fulfilled, (state,action) => {
             state.loading = false;
             state.tasks = {...state.tasks, ...action.payload}
-        })
+        });
+        builder.addCase(removeTaskFromProject.fulfilled, (state, action) => {
+            delete state.tasks[action.payload]
+        });
+
     }
 })
 
