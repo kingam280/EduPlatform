@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
+import { updateUser } from '../../app/tasksReducer';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Dialog from '@material-ui/core/Dialog';
@@ -12,13 +13,15 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 
 interface userIcon {
-    userName: string | null | undefined
+    userName: string | null | undefined;
+    taskId: string
 }
 
-const UserIcon = ({userName}: userIcon) => {
+const UserIcon = ({userName, taskId}: userIcon) => {
     const users = useSelector( (state:RootState) => state.tasks.users);
     const [open, setOpen] = useState<boolean>(false);
     const [user, setUser] = useState<string>('');
+    const dispatch = useDispatch();
 
     const changeVisibilty = () => {
         setOpen(!open)
@@ -34,6 +37,15 @@ const UserIcon = ({userName}: userIcon) => {
     const closeSelectUser = () => {
         changeVisibilty();
         setUser('')
+    }
+
+    const updateTaskUser = (id:string) => {
+        const data = {
+            taskId: id,
+            userId: user
+        }
+
+        dispatch(updateUser(data))
     }
 
     return (
@@ -70,7 +82,7 @@ const UserIcon = ({userName}: userIcon) => {
                     <Button color="primary" onClick={closeSelectUser}>
                         Cancel
                     </Button>
-                    <Button color="primary">
+                    <Button color="primary" onClick={() => updateTaskUser(taskId)}>
                         Add task
                     </Button>
                 </DialogActions>
