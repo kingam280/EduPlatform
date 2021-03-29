@@ -1,5 +1,11 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from '../config/axios';
+import { RootState } from './store';
+
+export interface UpdateUserData {
+    taskId: string,
+    userId: string
+}
 
 export interface Task {
     name: string,
@@ -30,7 +36,7 @@ export interface TasksState {
 }
 
 export const initialState:TasksState = {
-    projectId: '6050e4550272480015f40561',
+    projectId: '6050e4770272480015f40565',
     tasks: {},
     users: {},
     loading: false,
@@ -81,6 +87,7 @@ export const fetchTasksWithUsersForProject = createAsyncThunk(
 export const addTaskToProject = createAsyncThunk(
     'tasks/addTask',
     async (data:Task) => {
+        console.log(data)
         const newTask = axios.post('/tasks', data)
         .then(response => {
             return {
@@ -110,13 +117,29 @@ export const removeTaskFromProject = createAsyncThunk(
     }
 )
 
+export const updateUser = createAsyncThunk( 
+    'tasks/updateTask',
+    (data: UpdateUserData, {getState}) => {
+        const store = getState() as RootState;
+        const taskData = store.tasks.tasks[data.taskId];
+        const projectId = store.tasks.projectId;
+
+        const updatedTask = {...taskData, _id: data.taskId, projectId, userId:data.userId, description: "nothing to add"};
+        console.log(updatedTask)
+
+        axios.delete(`/tasks/${data.taskId}`)
+        .then ( () => axios.post('/tasks', updatedTask))
+        .then( response => console.log(response))
+        .catch( error => console.log(error))
+
+        return data
+    }
+)
+
 const tasksReducer = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
-        // addUser (state, action) {
-        //     state.tasks[action.payload.id].user = action.payload.user
-        // },
         // changeTaskStatus (state, action) {
         //     state.tasks[action.payload.id].done = action.payload.status
         // },
@@ -153,7 +176,10 @@ const tasksReducer = createSlice({
             state.loading = false;
             state.tasks = action.payload.tasks;
             state.users = action.payload.users;
-        })
+        });
+        builder.addCase(updateUser.fulfilled, (state, action) => {
+            state.tasks[action.payload.taskId].userId = action.payload.userId
+        });
     }
 })
 
