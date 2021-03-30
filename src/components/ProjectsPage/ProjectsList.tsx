@@ -5,15 +5,27 @@ import React, {
 import axios from '../../config/axios'
 import Project from './Project'
 import ProjectInterface from '../../interfaces/Project'
+import UserInterface from '../../interfaces/User'
 import { LinearProgress } from '@material-ui/core'
 
 const ProjectsList = () => {
     const [projects, setProjects] = useState<Array<ProjectInterface>>([])
     const [loading, setLoading] = useState<boolean>(true)
-
-    useEffect(() => {
+    const [users, setUsers] = useState<Array<UserInterface>>([])
+    
+    const getUsers = async () => {
+        await axios
+            .get('/authorization')
+            .then(res => res.data)
+            .then(res => {
+                setUsers(res)
+            })
+            .catch(err => console.log(err))
+    }
+    
+    const getProjects = async () => {
         setLoading(true)
-        axios
+        await axios
             .get('/projects')
             .then( res => res.data)
             .then( data => {
@@ -21,11 +33,17 @@ const ProjectsList = () => {
                 setLoading(false)
             })
             .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        getUsers()
+        getProjects()             
     }, [])
+
 
     return (
         <div>
-            {loading ? <LinearProgress /> : projects.map(project => <Project data={project} key={project._id}/>)} 
+            {loading ? <LinearProgress /> : projects.map(project => <Project data={project} updateProjectsList={getProjects} key={project._id}/>)} 
         </div>
             
 

@@ -8,8 +8,17 @@ import axios from '../../config/axios'
 import { AppBar } from '@material-ui/core'
 
 
-const Project: React.FC<{data: ProjectInterface}> = ({ data }) => {
+const Project: React.FC<{data: ProjectInterface, updateProjectsList: Function}> = ({ data, updateProjectsList }) => {
     const [mentor, setMentor] = useState("")
+
+    const handleRemoveProjectClick = () => {
+        const id = data._id
+        console.log(id)
+        axios
+            .delete(`/projects/${id}`)
+            .then(res => updateProjectsList())
+            .catch(err => console.log(err))
+    }
 
     useEffect(() => {
         axios
@@ -29,6 +38,7 @@ const Project: React.FC<{data: ProjectInterface}> = ({ data }) => {
         <AppBar position='relative' color='default'>
             <h3>{data.title}</h3>
             <p>{mentor}</p>
+            <button onClick={handleRemoveProjectClick}><i className="fas fa-times"></i></button>
         </AppBar>
     )
 }
