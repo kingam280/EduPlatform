@@ -5,6 +5,7 @@ import React, {
 import ProjectInterface from '../../interfaces/Project'
 import UserInterface from '../../interfaces/User'
 import axios from '../../config/axios'
+import { AppBar } from '@material-ui/core'
 
 
 const Project: React.FC<{data: ProjectInterface}> = ({ data }) => {
@@ -25,10 +26,10 @@ const Project: React.FC<{data: ProjectInterface}> = ({ data }) => {
     }, [data.mentor])
 
     return (
-        <div>
+        <AppBar position='relative' color='default'>
             <h3>{data.title}</h3>
             <p>{mentor}</p>
-        </div>
+        </AppBar>
     )
 }
 

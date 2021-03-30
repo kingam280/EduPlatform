@@ -1,43 +1,24 @@
 import React, {
-    useEffect,
     useState
 } from 'react'
-import axios from '../../config/axios'
-import Project from './Project'
-import ProjectInterface from '../../interfaces/Project'
+import ProjectsList from './ProjectsList'
+import AddProject from './AddProject'
 import { Button } from '@material-ui/core'
+import './ProjectsPage.css'
 
 const ProjectsPage: React.FC = () => {
-    const [projects, setProjects] = useState<Array<ProjectInterface>>([])
-    const [loading, setLoading] = useState<boolean>(true)
+    const [shouldDisplayAddProject, setShouldDisplayAddProject] = useState(false)
 
-    useEffect(() => {
-        setLoading(true)
-        axios
-            .get('/projects')
-            .then( res => res.data)
-            .then( data => {
-                setProjects(data)
-                setLoading(false)
-            })
-            .catch(err => console.log(err))
-    }, [])
-
-    const showProjects = () => {
-        if (projects.length > 0) {
-            projects.forEach(project => {
-                <Project data={project} />
-            })
-        }
+    const handleOpenClick = () => {
+        setShouldDisplayAddProject(true)
     }
-
-
+    
     return (
         <div>
             <h2>All projects</h2>
-            <Button>+ New project</Button>
-            {loading ? 'Loading...' : projects.map(project => <Project data={project} key={project._id}/>)}
-            {showProjects()}
+            <Button onClick={handleOpenClick}>+ New project</Button>
+            <ProjectsList />
+            {shouldDisplayAddProject ? <AddProject shouldDisplayAddProject={shouldDisplayAddProject} setShouldDisplayAddProject={setShouldDisplayAddProject} /> : 'b'}
         </div>
     )
 }
