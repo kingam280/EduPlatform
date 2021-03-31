@@ -13,12 +13,14 @@ const ProjectsPage: React.FC = () => {
         setShouldDisplayAddProject(true)
     }
     
+        
+    
     return (
         <div>
             <h2>All projects</h2>
             <Button onClick={handleOpenClick}>+ New project</Button>
             <ProjectsList />
-            {shouldDisplayAddProject ? <AddProject shouldDisplayAddProject={shouldDisplayAddProject} setShouldDisplayAddProject={setShouldDisplayAddProject} /> : 'b'}
+            {shouldDisplayAddProject ? <AddProject shouldDisplayAddProject={shouldDisplayAddProject} setShouldDisplayAddProject={setShouldDisplayAddProject} /> : null}
         </div>
     )
 }

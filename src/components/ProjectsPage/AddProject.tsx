@@ -1,6 +1,8 @@
 import React, { FormEvent, useState } from 'react'
 import { Modal } from '@material-ui/core'
 import axios from '../../config/axios'
+import { useAppDispatch } from '../../app/hooks'
+import { fetchProjects } from './ProjectsPageSlice'
 
 type shouldDisplay = {
     shouldDisplayAddProject: boolean,
@@ -16,6 +18,8 @@ const AddProject = ({ shouldDisplayAddProject, setShouldDisplayAddProject }: sho
         linkToDemo: '',
         linkToGitHub: ''
     })
+
+    const dispatch = useAppDispatch()
 
     const handleClose = () => {
         setShouldDisplayAddProject(false);
@@ -53,6 +57,7 @@ const AddProject = ({ shouldDisplayAddProject, setShouldDisplayAddProject }: sho
             .post('/projects', body)
             .then(res => {
                 console.log(res)
+                dispatch(fetchProjects())
                 setShouldDisplayAddProject(false)
             })
             .catch(err => console.log)
