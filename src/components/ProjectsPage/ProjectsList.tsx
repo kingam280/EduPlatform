@@ -18,6 +18,7 @@ const ProjectsList = () => {
             .get('/authorization')
             .then(res => res.data)
             .then(res => {
+                console.log(res)
                 setUsers(res)
             })
             .catch(err => console.log(err))
