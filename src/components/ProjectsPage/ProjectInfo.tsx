@@ -8,17 +8,20 @@ import './ProjectInfo.css'
 import ProjectForm from './ProjectForm';
 import { fetchProjects } from './ProjectsPageSlice';
 import { useAppDispatch } from '../../app/hooks';
+import { useHistory } from "react-router-dom";
 
 
 
-const ProjectInfo = ({data}: {data: projectInterface}) => {
+const ProjectInfo = () => {
     const [project, setProject] = useState<(projectInterface)>()
     const [isEditing, setIsEditing] = useState(false)
     const dispatch = useAppDispatch()
+    const path = window.location.pathname
+    const history = useHistory()
 
     const getProject = () => {
         axios
-            .get('/projects/6064b43a04cc55001591d382/')
+            .get(path)
             .then(res => setProject(res.data))
             .catch(err => console.log(err))
     }
@@ -28,9 +31,8 @@ const ProjectInfo = ({data}: {data: projectInterface}) => {
     }
 
     const saveProject = (body: projectInterface) => {
-        // const path = window.location.pathname
         axios
-            .put('/projects/6064b43a04cc55001591d382', body)
+            .put(path, body)
             .then(res => {
                 dispatch(fetchProjects())
                 setIsEditing(false)
@@ -45,8 +47,8 @@ const ProjectInfo = ({data}: {data: projectInterface}) => {
 
     return (
         <Card className="project-info">
-            <ArrowBackIcon />
-            <EditIcon onClick={() => setIsEditing(prev => !prev)}/>
+            <ArrowBackIcon onClick={() => history.push('/projects')}/>
+            <EditIcon onClick={() => setIsEditing(true)}/>
             {isEditing &&
                 <Modal
                     open={isEditing}
@@ -54,7 +56,7 @@ const ProjectInfo = ({data}: {data: projectInterface}) => {
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
                     >  
-                    <ProjectForm saveProject={saveProject} header="Edit project" projectData={data}/>
+                    <ProjectForm saveProject={saveProject} header="Edit project" projectData={project}/>
                 </Modal>}
             {project &&
                 <> 

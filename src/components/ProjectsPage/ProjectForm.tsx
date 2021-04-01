@@ -1,5 +1,6 @@
 import React, { FormEvent, useState } from 'react'
 import { projectInterface } from '../../interfaces/Project'
+import { Button, TextField } from '@material-ui/core'
 
 const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Function, header: string, projectData?: projectInterface}) => {
 
@@ -37,6 +38,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
             linkToDemo: form.linkToDemo,
             linkToGitHub: form.linkToGitHub
         }
+        console.log(body)
         saveProject(body) 
     }
 
@@ -44,10 +46,43 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
         <div className="add-project-modal">
                 <h2 id="simple-modal-title">{header}</h2>
                 <form onChange={handleFormChange} onSubmit={handleSubmit} className={"add-project-form"}>
-                    <label htmlFor="title">Title</label>
-                    <input type="text" id="title"  required defaultValue={projectData && projectData.title}/>
-                    <label htmlFor="description">Description</label>
-                    <textarea name="description" id="description" required defaultValue={projectData && projectData.description}></textarea>
+                    <TextField 
+                        id="filled-basic" 
+                        label="Title" 
+                        variant="filled" 
+                        defaultValue={projectData && projectData.title}
+                        required 
+                        fullWidth
+                        margin="dense"
+                        />
+                    <TextField 
+                        id="filled-basic" 
+                        label="Description" 
+                        variant="filled" 
+                        defaultValue={projectData && projectData.description}
+                        required 
+                        fullWidth
+                        margin="dense"
+                        rows={4}
+                        />
+                    <TextField 
+                        id="filled-basic" 
+                        label="Link to demo" 
+                        variant="filled" 
+                        defaultValue={projectData && projectData.linkToDemo}
+                        required 
+                        fullWidth
+                        margin="dense"
+                        />
+                    <TextField 
+                        id="filled-basic" 
+                        label="Link to GitHub" 
+                        variant="filled"
+                        defaultValue={projectData && projectData.linkToGitHub}
+                        required 
+                        fullWidth
+                        margin="dense"
+                        />
                     <label htmlFor="mentor">Mentor</label>
                     <select id="mentor" required>
                         <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
@@ -60,11 +95,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                         <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
                         <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
                     </select>
-                    <label htmlFor="linkToDemo">Link to demo</label>
-                    <input type="text" id="linkToDemo" required defaultValue={projectData && projectData.linkToDemo}/>
-                    <label htmlFor="linkToGitHub">Link to GitHub</label>
-                    <input type="text" id="linkToGitHub" required defaultValue={projectData && projectData.linkToGitHub}/>
-                    <button>Add</button>
+                    <Button variant="contained" type="submit">Add</Button>
                 </form>
             </div>
     )

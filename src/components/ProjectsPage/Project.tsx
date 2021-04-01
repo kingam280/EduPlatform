@@ -3,12 +3,14 @@ import { useHistory } from "react-router-dom";
 import axios from '../../config/axios'
 import { AppBar } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
+import InfoIcon from '@material-ui/icons/Info';
 import { projectInterface } from '../../interfaces/Project'
 import { useAppDispatch } from '../../app/hooks'
 import { fetchProjects } from './ProjectsPageSlice'
 
-const Project: React.FC<{ data: projectInterface }> = ({ data }) => {
+const Project = ({ data } : { data: projectInterface }) => {
     const dispatch = useAppDispatch()
+    const history = useHistory()
 
     const handleRemoveProjectClick = () => {
         const id = data._id
@@ -20,13 +22,15 @@ const Project: React.FC<{ data: projectInterface }> = ({ data }) => {
     }
 
     const handleGoToProjectClick = () => {
+        history.push(`/projects/${data._id}`)
     }
 
     return (
-        <AppBar position='relative' color='default' onClick={handleGoToProjectClick}>
+        <AppBar position='relative' color='default' >
             <h3>{data.title}</h3>
             <p>{data.mentor.firstName} {data.mentor.lastName}</p>
             <button onClick={handleRemoveProjectClick}><DeleteIcon /></button>
+            <InfoIcon onClick={handleGoToProjectClick} />
         </AppBar>
     )
 }

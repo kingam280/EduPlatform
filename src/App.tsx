@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 import './App.css';
 import { useAppDispatch } from './app/hooks';
+import ProjectInfo from './components/ProjectsPage/ProjectInfo';
 import ProjectsPage from './components/ProjectsPage/ProjectsPage'
 import { fetchProjects } from './components/ProjectsPage/ProjectsPageSlice';
 
@@ -12,7 +18,17 @@ function App() {
   }, [dispatch])
   return (
     <div className="App">
-      <ProjectsPage />
+      <Router>
+        <Switch>
+          <Route exact path="/projects">
+            <ProjectsPage />
+          </Route>
+          <Route path="/projects/:projectId">
+            <ProjectInfo />
+          </Route>
+        </Switch>
+      </Router>
+      
     </div>
   );
 }
