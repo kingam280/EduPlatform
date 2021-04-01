@@ -18,7 +18,7 @@ const ProjectsPage: React.FC = () => {
     return (
         <div>
             <h2>All projects</h2>
-            <Button onClick={handleOpenClick}>+ New project</Button>
+            <Button onClick={handleOpenClick} variant="contained">+ New project</Button>
             <ProjectsList />
             {shouldDisplayAddProject ? <AddProject shouldDisplayAddProject={shouldDisplayAddProject} setShouldDisplayAddProject={setShouldDisplayAddProject} /> : null}
         </div>
