@@ -28,7 +28,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
         }     
     }
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const body = {
             title: form.title,
@@ -39,7 +39,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
             linkToGitHub: form.linkToGitHub
         }
         console.log(body)
-        saveProject(body) 
+        await saveProject(body) 
     }
 
     return (
@@ -47,7 +47,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                 <h2 id="simple-modal-title">{header}</h2>
                 <form onChange={handleFormChange} onSubmit={handleSubmit} className={"add-project-form"}>
                     <TextField 
-                        id="filled-basic" 
+                        id="title" 
                         label="Title" 
                         variant="filled" 
                         defaultValue={projectData && projectData.title}
@@ -56,7 +56,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                         margin="dense"
                         />
                     <TextField 
-                        id="filled-basic" 
+                        id="description" 
                         label="Description" 
                         variant="filled" 
                         defaultValue={projectData && projectData.description}
@@ -66,7 +66,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                         rows={4}
                         />
                     <TextField 
-                        id="filled-basic" 
+                        id="linkToDemo" 
                         label="Link to demo" 
                         variant="filled" 
                         defaultValue={projectData && projectData.linkToDemo}
@@ -75,7 +75,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                         margin="dense"
                         />
                     <TextField 
-                        id="filled-basic" 
+                        id="linkToGitHub" 
                         label="Link to GitHub" 
                         variant="filled"
                         defaultValue={projectData && projectData.linkToGitHub}
@@ -95,7 +95,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                         <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
                         <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
                     </select>
-                    <Button variant="contained" type="submit">Add</Button>
+                    <Button variant="contained" type="submit">Submit</Button>
                 </form>
             </div>
     )

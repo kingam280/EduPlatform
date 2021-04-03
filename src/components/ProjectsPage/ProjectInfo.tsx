@@ -16,10 +16,11 @@ const ProjectInfo = () => {
     const [project, setProject] = useState<(projectInterface)>()
     const [isEditing, setIsEditing] = useState(false)
     const dispatch = useAppDispatch()
-    const path = window.location.pathname
+    
     const history = useHistory()
 
     const getProject = () => {
+        const path = window.location.pathname
         axios
             .get(path)
             .then(res => setProject(res.data))
@@ -30,13 +31,15 @@ const ProjectInfo = () => {
         setIsEditing(false)
     }
 
-    const saveProject = (body: projectInterface) => {
-        axios
+    const saveProject = async (body: projectInterface) => {
+        const path = window.location.pathname
+        await axios
             .put(path, body)
             .then(res => {
                 dispatch(fetchProjects())
-                setIsEditing(false)
                 getProject()
+                setIsEditing(false)
+                
             })
             .catch(err => console.log)
     }
