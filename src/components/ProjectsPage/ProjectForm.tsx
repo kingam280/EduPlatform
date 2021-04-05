@@ -28,7 +28,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
         }     
     }
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const body = {
             title: form.title,
@@ -38,8 +38,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
             linkToDemo: form.linkToDemo,
             linkToGitHub: form.linkToGitHub
         }
-        console.log(body)
-        saveProject(body) 
+        await saveProject(body) 
     }
 
     return (
@@ -95,7 +94,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                         <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
                         <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
                     </select>
-                    <Button variant="contained" type="submit">Add</Button>
+                    <Button variant="contained" type="submit">Submit</Button>
                 </form>
             </div>
     )

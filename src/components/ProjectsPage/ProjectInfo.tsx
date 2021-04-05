@@ -10,8 +10,6 @@ import { fetchProjects } from './ProjectsPageSlice';
 import { useAppDispatch } from '../../app/hooks';
 import { useHistory } from "react-router-dom";
 
-
-
 const ProjectInfo = () => {
     const [project, setProject] = useState<(IProject)>()
     const [isEditing, setIsEditing] = useState(false)
@@ -58,7 +56,7 @@ const ProjectInfo = () => {
                     >  
                     <ProjectForm saveProject={saveProject} header="Edit project" projectData={project}/>
                 </Modal>}
-            {project ?
+                {!project ? <LinearProgress /> :
                 <> 
                     <h2 className="project-info__title">{project.title}</h2>
                     <p className="project-info__description">{project.description}</p>
@@ -66,7 +64,7 @@ const ProjectInfo = () => {
                     <p className="project-info__group"><span className="project-info-bold">Group:</span> {project.mentor}</p>
                     <p className="project-info__demo"><span className="project-info-bold">Demo:</span> {project.linkToDemo}</p>
                     <p className="project-info__github"><span className="project-info-bold">GitHub:</span> {project.linkToGitHub}</p>
-                </> : <LinearProgress />} 
+                </>} 
         </Card>  
     )
 }

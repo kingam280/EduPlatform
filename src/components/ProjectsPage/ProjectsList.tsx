@@ -10,7 +10,7 @@ const ProjectsList = () => {
 
     return (
         <div>
-            {loading ? <LinearProgress /> : projects.map(project => <Project data={project}  key={project._id}/>)}
+            {projects.length <=0 && loading ? <LinearProgress /> : projects.map(project => <Project data={project}  key={project._id}/>)}
         </div>
     )
 }
