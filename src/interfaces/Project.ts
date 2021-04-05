@@ -1,6 +1,6 @@
 import userInterface from "./User";
 
-export  interface basicProjectInterface {
+export  interface IFetchedProject {
     _id: string,
     title: string,
     description: string,
@@ -11,7 +11,7 @@ export  interface basicProjectInterface {
     timestamp: number
 }
 
-export interface projectInterface {
+export interface IProject {
     _id: string,
     title: string,
     description: string,
@@ -21,3 +21,14 @@ export interface projectInterface {
     linkToGitHub: string,
     timestamp: number
 }
+
+export interface IAddProject {
+    shouldDisplayAddProject: boolean,
+    setShouldDisplayAddProject: (isTrue: boolean) => void
+}
+
+export interface IProjectsInitialState {
+    projects: IProject[],
+    loading: Boolean,
+    error: Boolean
+  }

@@ -1,8 +1,8 @@
 import React, { FormEvent, useState } from 'react'
-import { projectInterface } from '../../interfaces/Project'
+import { IProject } from '../../interfaces/Project'
 import { Button, TextField } from '@material-ui/core'
 
-const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Function, header: string, projectData?: projectInterface}) => {
+const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Function, header: string, projectData?: IProject}) => {
 
     const [form, setForm] = useState(projectData || {
         title: '',
@@ -47,7 +47,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                 <h2 id="simple-modal-title">{header}</h2>
                 <form onChange={handleFormChange} onSubmit={handleSubmit} className={"add-project-form"}>
                     <TextField 
-                        id="filled-basic" 
+                        id="title" 
                         label="Title" 
                         variant="filled" 
                         defaultValue={projectData && projectData.title}
@@ -56,7 +56,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                         margin="dense"
                         />
                     <TextField 
-                        id="filled-basic" 
+                        id="description" 
                         label="Description" 
                         variant="filled" 
                         defaultValue={projectData && projectData.description}
@@ -66,7 +66,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                         rows={4}
                         />
                     <TextField 
-                        id="filled-basic" 
+                        id="linkToDemo" 
                         label="Link to demo" 
                         variant="filled" 
                         defaultValue={projectData && projectData.linkToDemo}
@@ -75,7 +75,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                         margin="dense"
                         />
                     <TextField 
-                        id="filled-basic" 
+                        id="linkToGitHub" 
                         label="Link to GitHub" 
                         variant="filled"
                         defaultValue={projectData && projectData.linkToGitHub}

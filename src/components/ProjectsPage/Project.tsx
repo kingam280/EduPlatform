@@ -4,11 +4,11 @@ import axios from '../../config/axios'
 import { AppBar } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
-import { projectInterface } from '../../interfaces/Project'
+import { IProject } from '../../interfaces/Project'
 import { useAppDispatch } from '../../app/hooks'
 import { fetchProjects } from './ProjectsPageSlice'
 
-const Project = ({ data } : { data: projectInterface }) => {
+const Project = ({ data } : { data: IProject }) => {
     const dispatch = useAppDispatch()
     const history = useHistory()
 

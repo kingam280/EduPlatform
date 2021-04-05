@@ -4,21 +4,16 @@ import axios from '../../config/axios'
 import { useAppDispatch } from '../../app/hooks'
 import { fetchProjects } from './ProjectsPageSlice'
 import ProjectForm from './ProjectForm'
-import { projectInterface } from '../../interfaces/Project'
+import { IProject, IAddProject } from '../../interfaces/Project'
 
-type shouldDisplay = {
-    shouldDisplayAddProject: boolean,
-    setShouldDisplayAddProject: (isTrue: boolean) => void
-}
-
-const AddProject = ({ shouldDisplayAddProject, setShouldDisplayAddProject }: shouldDisplay) => {
+const AddProject = ({ shouldDisplayAddProject, setShouldDisplayAddProject }: IAddProject) => {
     const dispatch = useAppDispatch()
 
     const handleClose = () => {
         setShouldDisplayAddProject(false);
     }
 
-    const saveProject =  (body: projectInterface) => {
+    const saveProject =  (body: IProject) => {
         axios
             .post('/projects', body)
             .then(res => {
