@@ -38,7 +38,6 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
             linkToDemo: form.linkToDemo,
             linkToGitHub: form.linkToGitHub
         }
-        console.log(body)
         await saveProject(body) 
     }
 

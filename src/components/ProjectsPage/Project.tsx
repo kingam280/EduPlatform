@@ -14,7 +14,6 @@ const Project = ({ data } : { data: projectInterface }) => {
 
     const handleRemoveProjectClick = () => {
         const id = data._id
-        console.log(id)
         axios
             .delete(`/projects/${id}`)
             .then(res => dispatch(fetchProjects()) )

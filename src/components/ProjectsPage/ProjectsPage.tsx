@@ -1,10 +1,13 @@
 import React, {
+    useEffect,
     useState
 } from 'react'
 import ProjectsList from './ProjectsList'
 import AddProject from './AddProject'
 import { Button } from '@material-ui/core'
 import './ProjectsPage.css'
+import { useAppDispatch } from '../../app/hooks'
+import { fetchProjects } from './ProjectsPageSlice'
 
 const ProjectsPage: React.FC = () => {
     const [shouldDisplayAddProject, setShouldDisplayAddProject] = useState(false)
@@ -13,7 +16,10 @@ const ProjectsPage: React.FC = () => {
         setShouldDisplayAddProject(true)
     }
     
-        
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(fetchProjects())
+    }, [dispatch])    
     
     return (
         <div>

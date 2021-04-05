@@ -1,7 +1,7 @@
 import axios from '../../config/axios'
 import React, { useState, useEffect } from 'react'
 import { projectInterface } from '../../interfaces/Project'
-import { Card, Modal } from '@material-ui/core'
+import { Card, Modal, LinearProgress } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import './ProjectInfo.css'
@@ -61,7 +61,7 @@ const ProjectInfo = () => {
                     >  
                     <ProjectForm saveProject={saveProject} header="Edit project" projectData={project}/>
                 </Modal>}
-            {project &&
+            {!project ? <LinearProgress /> :
                 <> 
                     <h2 className="project-info__title">{project.title}</h2>
                     <p className="project-info__description">{project.description}</p>
