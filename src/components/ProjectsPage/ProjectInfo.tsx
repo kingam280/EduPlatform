@@ -61,7 +61,7 @@ const ProjectInfo = () => {
                     <h2 className="project-info__title">{project.title}</h2>
                     <p className="project-info__description">{project.description}</p>
                     <p className="project-info__date"><span className="project-info-bold">Date:</span> {project.timestamp}</p>
-                    <p className="project-info__group"><span className="project-info-bold">Group:</span> {project.mentor}</p>
+                    <p className="project-info__group"><span className="project-info-bold">Group:</span> {project.group}</p>
                     <p className="project-info__demo"><span className="project-info-bold">Demo:</span> {project.linkToDemo}</p>
                     <p className="project-info__github"><span className="project-info-bold">GitHub:</span> {project.linkToGitHub}</p>
                 </>} 

@@ -1,31 +1,32 @@
 import React, { FormEvent, useState } from 'react'
 import { IProject } from '../../interfaces/Project'
 import { Button, TextField } from '@material-ui/core'
+import { useAppSelector } from '../../app/hooks'
+import Select from '@material-ui/core/Select';
 
 const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Function, header: string, projectData?: IProject}) => {
-
+    const groups = useAppSelector(state => state.projects.groups)
     const [form, setForm] = useState(projectData || {
         title: '',
         description: '',
-        mentor: '',
-        authors: [],
+        group: '',
         linkToDemo: '',
         linkToGitHub: ''
     })
 
     const handleFormChange = (e: React.ChangeEvent<HTMLFormElement>) => {
-        if (e.target.id === "authors") {
-            const authors = Array.from(e.target.selectedOptions, (option: HTMLInputElement) => option.value)
-            setForm(prev => ({
-                ...prev,
-                [e.target.id]: authors
-            }))
-        } else {
-            setForm(prev => ({
-                ...prev,
-                [e.target.id]: e.target.value
-            }))
+        setForm(prev => ({
+            ...prev,
+            [e.target.id]: e.target.value
+        }))
         }     
+    
+
+    const handleSelectChange =  (e: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
+        setForm(prev => ({
+            ...prev,
+            group: e.target.value as string
+        }))
     }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -33,8 +34,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
         const body = {
             title: form.title,
             description: form.description,
-            mentor: form.mentor,
-            authors: form.authors,
+            group: form.group,
             linkToDemo: form.linkToDemo,
             linkToGitHub: form.linkToGitHub
         }
@@ -82,18 +82,19 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                         fullWidth
                         margin="dense"
                         />
-                    <label htmlFor="mentor">Mentor</label>
-                    <select id="mentor" required>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                    </select>
-                    <label htmlFor="authors">Authors</label>
-                    <select id="authors" multiple required>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                    </select>
+                        <Select
+                            value={form.group}
+                            onChange={handleSelectChange}
+                            labelId="demo-simple-select-filled-label"
+                            label="Group"
+                            id="demo-simple-select-filled"
+                            variant="filled"
+                            required 
+                            fullWidth
+                            margin="dense"
+                            >
+                            {groups.map(group => <option value={group._id}>{group.groupName}</option>)}
+                        </Select>
                     <Button variant="contained" type="submit">Submit</Button>
                 </form>
             </div>

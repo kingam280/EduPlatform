@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { IFetchedProject, IProject, IProjectsInitialState } from '../../interfaces/Project'
+import { IProject, IProjectsInitialState } from '../../interfaces/Project'
 import axios from '../../config/axios'
-import userInterface from '../../interfaces/User'
   
 const initialState: IProjectsInitialState = {
     projects: [],
+    groups: [],
     loading: false,
     error: false
 }
@@ -13,23 +13,9 @@ export const fetchProjects = createAsyncThunk(
     'projects/fetchProjects',
     async () => {
         try {
-            const data = await axios.get('/projects').then(res => res.data)
-            const users = await axios.get('/authorization').then(res => res.data)
-
-            const mappedData: IProject[] = data.map( (project: IFetchedProject) => {
-                const id = project.mentor
-                let mappedProject: IProject | undefined
-                users.forEach((user: userInterface) => {
-                    if (user._id === id) {
-                        mappedProject = {
-                            ...project,
-                            mentor: user
-                        }
-                    }
-                })
-                return mappedProject
-            })
-            return mappedData
+            const projects = await axios.get('/projects').then(res => res.data)
+            const groups = await axios.get('/group').then(res => res.data.result)
+            return {projects, groups}
         } catch (err) {
             return err.response.data
         }
@@ -87,7 +73,8 @@ const ProjectsPageSlice = createSlice({
             state.error = true
         });
         builder.addCase(fetchProjects.fulfilled, (state, action) => {
-            state.projects = action.payload
+            state.projects = action.payload.projects
+            state.groups = action.payload.groups
             state.loading = false;
             state.error = false
         });

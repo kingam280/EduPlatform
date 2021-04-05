@@ -27,7 +27,7 @@ const Project = ({ data } : { data: IProject }) => {
     return (
         <AppBar position='relative' color='default' >
             <h3>{data.title}</h3>
-            <p>{data.mentor.firstName} {data.mentor.lastName}</p>
+            <p>{data.group}</p>
             <button onClick={handleRemoveProjectClick}><DeleteIcon /></button>
             <InfoIcon onClick={handleGoToProjectClick} />
         </AppBar>
