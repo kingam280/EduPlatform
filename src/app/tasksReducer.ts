@@ -1,51 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from '../config/axios';
 import { RootState } from './store';
-
-export interface UpdateUserData {
-    taskId: string,
-    userId: string
-}
-
-export interface TaskData {
-    name: string,
-    deadline: number,
-    description: string,
-    done?: boolean,
-    userId?: string,
-    projectId?: string
-}
-
-export interface Task {
-    name: string,
-    deadline: number,
-    done?: boolean,
-    user: {
-        userId: string,
-        name: string
-    } | null,
-    projectId?: string
-}
-
-export interface Tasks {
-    [key:string]: Task
-}
-
-export interface Users {
-    [key:string]: {
-        firstName: string,
-        lastName: string,
-        role: string
-    }
-}
-
-export interface TasksState {
-    projectId: string,
-    tasks: Tasks,
-    users: Users,
-    loading: boolean,
-    error: boolean
-}
+import {UpdateUserData, TaskData, Task, Tasks, Users, TasksState} from '../interfaces/tasks';
 
 export const initialState:TasksState = {
     projectId: '606b446ad03d3e094438dcf7',
