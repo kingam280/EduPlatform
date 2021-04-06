@@ -123,6 +123,31 @@ export const updateUser = createAsyncThunk(
                         name: `${user.firstName} ${user.lastName}`}
         }
     }
+);
+
+export const changeTaskStatus = createAsyncThunk(
+    'tasks/changeTaskStatus',
+    (taskId:string, {getState}) => {
+        const store = getState() as RootState;
+        const taskData = store.tasks.tasks[taskId];
+        const projectId = store.tasks.projectId;
+
+        const updatedTask:TaskData = {name: taskData.name,
+            deadline: taskData.deadline,
+            description: "some description",
+            done: !taskData.done,
+            projectId, 
+            userId:  taskData.user!.userId};
+
+        axios.put(`/tasks/${taskId}`, updatedTask)
+        .then( response => console.log(response.data))
+        .catch( error => console.log(error))
+
+        return {
+            taskId: taskId,
+            done: !taskData.done
+        }
+    }
 )
 
 const tasksReducer = createSlice({
@@ -132,9 +157,6 @@ const tasksReducer = createSlice({
         // changeTaskStatus (state, action) {
         //     state.tasks[action.payload.id].done = action.payload.status
         // },
-        // changeTaskUser (state, action) {
-        //     state.tasks[action.payload.id].user = action.payload.user
-        // }
     },
     extraReducers: builder => {
         builder.addCase(addTaskToProject.pending, (state, action) => {
@@ -177,6 +199,9 @@ const tasksReducer = createSlice({
         builder.addCase(updateUser.fulfilled, (state, action) => {
             state.tasks[action.payload.taskId].user = action.payload.user
         });
+        builder.addCase(changeTaskStatus.fulfilled, (state, action) => {
+            state.tasks[action.payload.taskId].done = action.payload.done
+        })
     }
 })
 
