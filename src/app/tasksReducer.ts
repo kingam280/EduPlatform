@@ -36,51 +36,60 @@ export interface TasksState {
 }
 
 export const initialState:TasksState = {
-    projectId: '6050e4770272480015f40565',
+    projectId: '606b446ad03d3e094438dcf7',
     tasks: {},
     users: {},
     loading: false,
     error: false
 }
 
-export const fetchTasksWithUsersForProject = createAsyncThunk(
-    'tasks/fetchTasksWithUsersForProject',
-    (projectId: string) => {
-
-        const data = Promise.all([axios.get(`/tasks/project/${projectId}`),
-                    axios.get('/authorization')])
-            .then(response => {
-                const tasksResponse = response[0].data;
-                const usersResponse = response[1].data;
-
-                let tasks:Tasks= {};
-                for (let task in tasksResponse) {
-                    const taskId:string = tasksResponse[task]._id;
-                    
-                    tasks = {...tasks, [taskId]: {
-                        name: tasksResponse[task].name,
-                        deadline: tasksResponse[task].deadline,
-                        done: tasksResponse[task].done,
-                        userId: tasksResponse[task].user
-                    } as Task}
+export const fetchTasksByProject = createAsyncThunk(
+    'tasks/fetchByProjectId',
+    async (projectId:string) => {
+        const tasks = axios.get(`/tasks/project/${projectId}`)
+        .then( response => response.data)
+        .then( data => {
+            let tasksList:Tasks= {};
+            for (let task in data) {
+                const taskId:string = data[task]._id;
+                
+                tasksList[taskId] = {
+                    name: data[task].name,
+                    deadline: data[task].deadline,
+                    done: data[task].done,
+                    userId: data[task].user
                 }
+            }
 
-                let users:Users= {};
-                for (let user in usersResponse) {
-                    const userId:string = usersResponse[user]._id;
-                    
-                    users = {...users, [userId]: {
-                        firstName: usersResponse[user].firstName,
-                        lastName: usersResponse[user].lastName,
-                        role: usersResponse[user].role,
-                    }}
+            return tasksList
+        })
+
+        return tasks
+
+    }
+);
+
+export const fetchUsers = createAsyncThunk(
+    'tasks/fetchUsers',
+    async () => {
+        const users = axios.get('/authorization')
+        .then( response => response.data)
+        .then( data => {
+            let usersList:Users= {};
+            for (let user in data) {
+                const userId:string = data[user]._id;
+                
+                usersList[userId] = {
+                    firstName: data[user].firstName,
+                    lastName: data[user].lastName,
+                    role: data[user].role,
                 }
+            }
 
-                return {tasks, users}
-            })
-            .catch(error => error)
+            return usersList
+        })
 
-        return data
+        return users
     }
 )
 
@@ -163,19 +172,27 @@ const tasksReducer = createSlice({
         builder.addCase(removeTaskFromProject.fulfilled, (state, action) => {
             delete state.tasks[action.payload]
         });
-        builder.addCase(fetchTasksWithUsersForProject.pending, (state, action) => {
-            state.loading = true;
-            state.error = false
+        builder.addCase(fetchTasksByProject.pending, (state, action) => {
+            state.loading = true
         });
-        builder.addCase(fetchTasksWithUsersForProject.rejected, (state, action) => {
-            state.loading = false;
-            state.error = true
+        builder.addCase(fetchTasksByProject.fulfilled, (state,action) => {
+            state.loading = false
+            state.tasks = action.payload
         });
-        builder.addCase(fetchTasksWithUsersForProject.fulfilled, (state, action) => {
-            console.log(action.payload)
-            state.loading = false;
-            state.tasks = action.payload.tasks;
-            state.users = action.payload.users;
+        builder.addCase(fetchTasksByProject.rejected, (state, action) => {
+            state.error = true;
+            state.loading = false
+        });
+        builder.addCase(fetchUsers.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(fetchUsers.fulfilled, (state,action) => {
+            state.loading = false
+            state.users = action.payload
+        });
+        builder.addCase(fetchUsers.rejected, (state, action) => {
+            state.error = true;
+            state.loading = false
         });
         builder.addCase(updateUser.fulfilled, (state, action) => {
             state.tasks[action.payload.taskId].userId = action.payload.userId

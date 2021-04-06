@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
-import {fetchTasksWithUsersForProject} from '../../app/tasksReducer';
+import {fetchTasksByProject, fetchUsers} from '../../app/tasksReducer';
 import TaskItem from './taskItem';
 
 const TaskList = () => {
@@ -10,8 +10,12 @@ const TaskList = () => {
     const project = useSelector( (state:RootState) => state.tasks.projectId)
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(fetchTasksWithUsersForProject(project))
+    useEffect( () => {
+        dispatch(fetchUsers())
+    }, [])
+
+    useEffect( () => {
+        dispatch(fetchTasksByProject(project));
     }, [project, dispatch]);
 
     const projectTasks =  () => {
@@ -21,9 +25,9 @@ const TaskList = () => {
                 id={task}
                 name={tasks[task].name} 
                 deadline={tasks[task].deadline}
-                user={tasks[task].userId ? 
-                        `${users[tasks[task].userId].firstName} ${users[tasks[task].userId].lastName}` 
-                        : null}
+                // user={tasks[task].userId ? 
+                //         `${users[tasks[task].userId].firstName} ${users[tasks[task].userId].lastName}` 
+                //         : null}
                  />
         })
     }
