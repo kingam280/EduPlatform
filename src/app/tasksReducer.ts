@@ -4,7 +4,7 @@ import { RootState } from './store';
 import {UpdateUserData, TaskData, Task, Tasks, Users, TasksState} from '../interfaces/tasks';
 
 export const initialState:TasksState = {
-    projectId: '606b446ad03d3e094438dcf7',
+    projectId: '606b6e5ff4aeb931b8ffe79e',
     tasks: {},
     users: {},
     loading: false,

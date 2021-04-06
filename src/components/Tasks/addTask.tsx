@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 import { addTaskToProject } from '../../app/tasksReducer';
@@ -18,9 +18,13 @@ const AddTask = () => {
     const [task, setTask] = useState<string>('');
     const [user, setUser] = useState<string>('');
     const [date, setDate] = useState<string>('');
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const changeVisibilty = () => {
         setOpen(!open)
+        if(!open === true && inputRef.current !== null) {
+            inputRef.current.focus()
+        }
     }
 
     const closeAddTask = () => {
@@ -59,7 +63,7 @@ const AddTask = () => {
     return (
         <React.Fragment>
             <Button variant="outlined" color="primary" onClick={changeVisibilty}>Add task</Button>
-            <Dialog open={open} aria-labelledby="form-dialog-title" >
+            <Dialog open={open} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add new task</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -70,6 +74,7 @@ const AddTask = () => {
                         value={task}
                         fullWidth
                         onChange={(e) => changeValue(e, 'name')}
+                        ref = {inputRef}
                     />
                     <TextField
                         id="deadline"
