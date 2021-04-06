@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
-// import { updateUser } from '../../app/tasksReducer';
+import { updateUser } from '../../app/tasksReducer';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Dialog from '@material-ui/core/Dialog';
@@ -45,7 +45,7 @@ const UserIcon = ({userName, taskId}: userIcon) => {
             userId: user
         }
 
-        // dispatch(updateUser(data))
+        dispatch(updateUser(data))
     }
 
     return (

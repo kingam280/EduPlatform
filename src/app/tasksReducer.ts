@@ -143,28 +143,31 @@ export const removeTaskFromProject = createAsyncThunk(
     }
 )
 
-// export const updateUser = createAsyncThunk( 
-//     'tasks/updateTask',
-//     (data: UpdateUserData, {getState}) => {
-//         const store = getState() as RootState;
-//         const taskData = store.tasks.tasks[data.taskId];
-//         const projectId = store.tasks.projectId;
+export const updateUser = createAsyncThunk( 
+    'tasks/updateTask',
+    (data: UpdateUserData, {getState}) => {
+        const store = getState() as RootState;
+        const taskData = store.tasks.tasks[data.taskId];
+        const projectId = store.tasks.projectId;
+        const user = store.tasks.users[data.userId]
 
-//         const updatedTask:TaskData = {name: taskData.name,
-//                                             deadline: taskData.deadline,
-//                                             description: "some description",
-//                                             done: taskData.done,
-//                                             projectId, 
-//                                             userId: data.userId};
-//         console.log(updatedTask)
+        const updatedTask:TaskData = {name: taskData.name,
+                                            deadline: taskData.deadline,
+                                            description: "some description",
+                                            done: taskData.done,
+                                            projectId, 
+                                            userId: data.userId};
 
-//         axios.put(`/tasks/${data.taskId}`)
-//         .then( response => console.log(response))
-//         .catch( error => console.log(error))
+        axios.put(`/tasks/${data.taskId}`, updatedTask)
+        .then( response => console.log(response.data))
+        .catch( error => console.log(error))
 
-//         return data
-//     }
-// )
+        return {taskId: data.taskId,
+                user: {userId: data.userId,
+                        name: `${user.firstName} ${user.lastName}`}
+        }
+    }
+)
 
 const tasksReducer = createSlice({
     name: 'tasks',
@@ -215,9 +218,9 @@ const tasksReducer = createSlice({
             state.error = true;
             state.loading = false
         });
-        // builder.addCase(updateUser.fulfilled, (state, action) => {
-        //     state.tasks[action.payload.taskId].user.userId = action.payload.userId
-        // });
+        builder.addCase(updateUser.fulfilled, (state, action) => {
+            state.tasks[action.payload.taskId].user = action.payload.user
+        });
     }
 })
 
