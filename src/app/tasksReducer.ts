@@ -7,11 +7,23 @@ export interface UpdateUserData {
     userId: string
 }
 
+export interface TaskData {
+    name: string,
+    deadline: number,
+    description: string,
+    done?: boolean,
+    userId?: string,
+    projectId?: string
+}
+
 export interface Task {
     name: string,
     deadline: number,
     done?: boolean,
-    userId: string,
+    user: {
+        userId: string,
+        name: string
+    } | null,
     projectId?: string
 }
 
@@ -49,6 +61,7 @@ export const fetchTasksByProject = createAsyncThunk(
         const tasks = axios.get(`/tasks/project/${projectId}`)
         .then( response => response.data)
         .then( data => {
+            console.log(data)
             let tasksList:Tasks= {};
             for (let task in data) {
                 const taskId:string = data[task]._id;
@@ -57,12 +70,16 @@ export const fetchTasksByProject = createAsyncThunk(
                     name: data[task].name,
                     deadline: data[task].deadline,
                     done: data[task].done,
-                    userId: data[task].user
+                    user: data[task].user ? {userId: data[task].user._id,
+                            name: `${data[task].user.firstName} ${data[task].user.lastName}`}
+                            : null
                 }
             }
 
             return tasksList
         })
+
+        console.log(tasks)
 
         return tasks
 
@@ -95,7 +112,7 @@ export const fetchUsers = createAsyncThunk(
 
 export const addTaskToProject = createAsyncThunk(
     'tasks/addTask',
-    async (data:Task) => {
+    async (data:TaskData) => {
         console.log(data)
         const newTask = axios.post('/tasks', data)
         .then(response => {
@@ -126,24 +143,28 @@ export const removeTaskFromProject = createAsyncThunk(
     }
 )
 
-export const updateUser = createAsyncThunk( 
-    'tasks/updateTask',
-    (data: UpdateUserData, {getState}) => {
-        const store = getState() as RootState;
-        const taskData = store.tasks.tasks[data.taskId];
-        const projectId = store.tasks.projectId;
+// export const updateUser = createAsyncThunk( 
+//     'tasks/updateTask',
+//     (data: UpdateUserData, {getState}) => {
+//         const store = getState() as RootState;
+//         const taskData = store.tasks.tasks[data.taskId];
+//         const projectId = store.tasks.projectId;
 
-        const updatedTask = {...taskData, _id: data.taskId, projectId, userId:data.userId, description: "nothing to add"};
-        console.log(updatedTask)
+//         const updatedTask:TaskData = {name: taskData.name,
+//                                             deadline: taskData.deadline,
+//                                             description: "some description",
+//                                             done: taskData.done,
+//                                             projectId, 
+//                                             userId: data.userId};
+//         console.log(updatedTask)
 
-        axios.delete(`/tasks/${data.taskId}`)
-        .then ( () => axios.post('/tasks', updatedTask))
-        .then( response => console.log(response))
-        .catch( error => console.log(error))
+//         axios.put(`/tasks/${data.taskId}`)
+//         .then( response => console.log(response))
+//         .catch( error => console.log(error))
 
-        return data
-    }
-)
+//         return data
+//     }
+// )
 
 const tasksReducer = createSlice({
     name: 'tasks',
@@ -194,9 +215,9 @@ const tasksReducer = createSlice({
             state.error = true;
             state.loading = false
         });
-        builder.addCase(updateUser.fulfilled, (state, action) => {
-            state.tasks[action.payload.taskId].userId = action.payload.userId
-        });
+        // builder.addCase(updateUser.fulfilled, (state, action) => {
+        //     state.tasks[action.payload.taskId].user.userId = action.payload.userId
+        // });
     }
 })
 

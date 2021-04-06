@@ -20,14 +20,13 @@ const TaskList = () => {
 
     const projectTasks =  () => {
         return Object.keys(tasks).map( task => {
-            console.log(tasks[task].userId)
             return <TaskItem  key={task} 
                 id={task}
                 name={tasks[task].name} 
                 deadline={tasks[task].deadline}
-                // user={tasks[task].userId ? 
-                //         `${users[tasks[task].userId].firstName} ${users[tasks[task].userId].lastName}` 
-                //         : null}
+                user={tasks[task].user !== null ? 
+                        `${tasks[task].user!.name}` 
+                        : null}
                  />
         })
     }
