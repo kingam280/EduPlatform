@@ -79,8 +79,6 @@ export const fetchTasksByProject = createAsyncThunk(
             return tasksList
         })
 
-        console.log(tasks)
-
         return tasks
 
     }
@@ -121,8 +119,10 @@ export const addTaskToProject = createAsyncThunk(
                     name: response.data.name,
                     deadline: response.data.deadline,
                     done: response.data.done,
-                    userId: response.data.user ? response.data.user._id : null
-                } as Tasks
+                    user: response.data.user ? {userId: data.userId,
+                        name: `${response.data.user.firstName} ${response.data.user.lastName}`}
+                        : null
+                } 
             }
         })
         .catch( error => console.log(error));
