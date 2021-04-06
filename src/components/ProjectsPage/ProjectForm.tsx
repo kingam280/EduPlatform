@@ -1,18 +1,18 @@
 import React, { FormEvent, useState } from 'react'
-import { IProject } from '../../interfaces/Project'
+import { IProjectWithGroup } from '../../interfaces/Project'
 import { Button, TextField } from '@material-ui/core'
 import { useAppSelector } from '../../app/hooks'
 import Select from '@material-ui/core/Select';
 
-const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Function, header: string, projectData?: IProject}) => {
+const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Function, header: string, projectData?: IProjectWithGroup}) => {
     const groups = useAppSelector(state => state.projects.groups)
-    const [form, setForm] = useState(projectData || {
-        title: '',
-        description: '',
-        group: '',
-        linkToDemo: '',
-        linkToGitHub: ''
-    })
+    const [form, setForm] = useState({
+        title: projectData?.title || '',
+        description: projectData?.description || '',
+        linkToDemo: projectData?.linkToDemo || '',
+        linkToGitHub: projectData?.linkToGitHub || '', 
+        group: projectData?.group.groupName || ''
+        })
 
     const handleFormChange = (e: React.ChangeEvent<HTMLFormElement>) => {
         setForm(prev => ({
@@ -31,13 +31,15 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const group = groups.find(group => group.groupName === form.group)!
         const body = {
             title: form.title,
             description: form.description,
-            group: form.group,
+            group: group._id,
             linkToDemo: form.linkToDemo,
             linkToGitHub: form.linkToGitHub
         }
+        console.log(body)
         await saveProject(body) 
     }
 
@@ -92,8 +94,9 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                             required 
                             fullWidth
                             margin="dense"
+                            aria-required
                             >
-                            {groups.map(group => <option value={group._id}>{group.groupName}</option>)}
+                            {groups.map(group => <option value={group.groupName}>{group.groupName}</option>)}
                         </Select>
                     <Button variant="contained" type="submit">Submit</Button>
                 </form>

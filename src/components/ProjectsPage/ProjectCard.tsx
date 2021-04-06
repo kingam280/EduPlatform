@@ -1,47 +1,52 @@
 import axios from '../../config/axios'
 import React, { useState, useEffect, useCallback } from 'react'
-import { IProject } from '../../interfaces/Project'
+import { IProject, IProjectWithGroup } from '../../interfaces/Project'
 import { Card, Modal, LinearProgress } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import './ProjectInfo.css'
 import ProjectForm from './ProjectForm';
-import { fetchProjects } from './ProjectsPageSlice';
-import { useAppDispatch } from '../../app/hooks';
+import { addNewProject, fetchProjects, getSingleProject } from './ProjectsPageSlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useHistory } from "react-router-dom";
+import { stat } from 'node:fs';
 
-const ProjectInfo = () => {
-    const [project, setProject] = useState<(IProject)>()
+const ProjectCard = () => {
     const [isEditing, setIsEditing] = useState(false)
     const dispatch = useAppDispatch()
-    const path = window.location.pathname
     const history = useHistory()
 
-    const getProject = useCallback(() => {
-        axios
-            .get(path)
-            .then(res => setProject(res.data))
-            .catch(err => console.log(err))
-    }, [path])
+    const project = useAppSelector(state => state.projects.displayedProject)
+
+    const displayDate = () => {
+        if (project) {
+            const day = new Date(project.timestamp).getDate()
+            const month = new Date(project.timestamp).getMonth() + 1
+            const year = new Date(project.timestamp).getFullYear()
+            return `${day < 10 ? `0` + day : day}/${month < 10 ? `0` + month : month}/${year}`
+        }
+    }
 
     const handleClose = () => {
         setIsEditing(false)
     }
 
     const saveProject = (body: IProject) => {
-        axios
-            .put(path, body)
-            .then(res => {
-                dispatch(fetchProjects())
-                setIsEditing(false)
-                getProject()
-            })
-            .catch(err => console.log)
+        // dispatch(addNewProject(body))
+        setIsEditing(false)
+        // axios
+        //     .put(path, body)
+        //     .then(res => {
+        //         dispatch(fetchProjects())
+        //         setIsEditing(false)
+        //         // getProject()
+        //     })
+        //     .catch(err => console.log)
     }
 
     useEffect(() => {
-        getProject()
-    }, [getProject])
+        dispatch(getSingleProject(window.location.pathname))
+    }, [dispatch])
 
     return (
         <Card className="project-info">
@@ -60,8 +65,8 @@ const ProjectInfo = () => {
                 <> 
                     <h2 className="project-info__title">{project.title}</h2>
                     <p className="project-info__description">{project.description}</p>
-                    <p className="project-info__date"><span className="project-info-bold">Date:</span> {project.timestamp}</p>
-                    <p className="project-info__group"><span className="project-info-bold">Group:</span> {project.group}</p>
+                    <p className="project-info__date"><span className="project-info-bold">Date:</span> {displayDate()}</p>
+                    <p className="project-info__group"><span className="project-info-bold">Group:</span> {project.group.groupName}</p>
                     <p className="project-info__demo"><span className="project-info-bold">Demo:</span> {project.linkToDemo}</p>
                     <p className="project-info__github"><span className="project-info-bold">GitHub:</span> {project.linkToGitHub}</p>
                 </>} 
@@ -69,4 +74,4 @@ const ProjectInfo = () => {
     )
 }
 
-export default ProjectInfo
+export default ProjectCard

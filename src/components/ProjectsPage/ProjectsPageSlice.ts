@@ -1,10 +1,12 @@
+import { IProjectWithGroup } from './../../interfaces/Project';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { IProject, IProjectsInitialState } from '../../interfaces/Project'
+import { IGroup, IProject, IProjectsInitialState } from '../../interfaces/Project'
 import axios from '../../config/axios'
   
 const initialState: IProjectsInitialState = {
     projects: [],
     groups: [],
+    displayedProject: undefined,
     loading: false,
     error: false
 }
@@ -13,22 +15,40 @@ export const fetchProjects = createAsyncThunk(
     'projects/fetchProjects',
     async () => {
         try {
-            const projects = await axios.get('/projects').then(res => res.data)
+            const projectsData = await axios.get('/projects').then(res => res.data)
             const groups = await axios.get('/group').then(res => res.data.result)
+            const projects = projectsData.map( (project: IProject) => {
+                const group = groups.find( (group: IGroup) => group._id === project.group)
+                return {...project, group}
+            })
             return {projects, groups}
         } catch (err) {
             return err.response.data
         }
-      
     }
   )
+
+export const getSingleProject = createAsyncThunk(
+    'projects/getSingleProject',
+    async (path: string) => {
+        try {
+            const projectData = await axios.get(path).then(res => res.data)
+            const groups = await axios.get('/group').then(res => res.data.result)
+            const groupInProject = groups.find((group: IGroup) => group._id === projectData.group)
+            const project = {...projectData, group: groupInProject}
+            console.log(project)
+            return {project, groups}
+        } catch (err) {
+            throw Error(err)
+        }
+    }
+)
 
 export const addNewProject = createAsyncThunk(
     'projects/addNewProject',
     async (body: IProject) => {
         try {
-            const newProject = await axios.post('/projects', body)
-            console.log(newProject)
+            const newProject = await axios.post('/projects', body).then(res => res.data.data)
             return newProject
         } catch (err) {
             throw Error(err)
@@ -41,6 +61,7 @@ export const deleteProject = createAsyncThunk(
     async (id: string) => {
         try {
             const deletedTask = await axios.delete(`/projects/${id}`)
+            
             return deletedTask
         } catch (err) {
             throw Error(err)
@@ -53,6 +74,20 @@ const ProjectsPageSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: builder => {
+        builder.addCase(addNewProject.pending, (state, action) => {
+            state.loading = true;
+            state.error = false
+        });
+        builder.addCase(addNewProject.rejected, (state, action) => {
+            state.loading = false;
+            state.error = true
+        });
+        builder.addCase(addNewProject.fulfilled, (state, action) => {
+            state.projects = [...state.projects, action.payload]
+            state.loading = false;
+            state.error = false
+            state.displayedProject = undefined
+        });
         builder.addCase(deleteProject.pending, (state, action) => {
             state.loading = true;
             state.error = false
@@ -63,6 +98,7 @@ const ProjectsPageSlice = createSlice({
         });
         builder.addCase(deleteProject.fulfilled, (state, action) => {
             state.projects = state.projects.filter(project => !action.payload)
+            state.displayedProject = undefined
         });
         builder.addCase(fetchProjects.pending, (state, action) => {
             state.loading = true;
@@ -75,10 +111,24 @@ const ProjectsPageSlice = createSlice({
         builder.addCase(fetchProjects.fulfilled, (state, action) => {
             state.projects = action.payload.projects
             state.groups = action.payload.groups
+            state.displayedProject = undefined
             state.loading = false;
             state.error = false
         });
-
+        builder.addCase(getSingleProject.pending, (state, action) => {
+            state.loading = true;
+            state.error = false
+        });
+        builder.addCase(getSingleProject.rejected, (state, action) => {
+            state.loading = false;
+            state.error = true
+        });
+        builder.addCase(getSingleProject.fulfilled, (state, action) => {
+            state.groups = action.payload.groups
+            state.displayedProject = action.payload.project
+            state.loading = false;
+            state.error = false
+        });
 
       }
   })

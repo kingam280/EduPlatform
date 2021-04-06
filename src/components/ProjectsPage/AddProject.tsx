@@ -1,8 +1,7 @@
 import React from 'react'
 import { Modal } from '@material-ui/core'
-import axios from '../../config/axios'
 import { useAppDispatch } from '../../app/hooks'
-import { fetchProjects } from './ProjectsPageSlice'
+import { addNewProject } from './ProjectsPageSlice'
 import ProjectForm from './ProjectForm'
 import { IProject, IAddProject } from '../../interfaces/Project'
 
@@ -14,13 +13,8 @@ const AddProject = ({ shouldDisplayAddProject, setShouldDisplayAddProject }: IAd
     }
 
     const saveProject =  (body: IProject) => {
-        axios
-            .post('/projects', body)
-            .then(res => {
-                dispatch(fetchProjects())
-                setShouldDisplayAddProject(false)
-            })
-            .catch(err => console.log(err))
+        dispatch(addNewProject(body))
+        setShouldDisplayAddProject(false)
     }
 
     return (
