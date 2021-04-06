@@ -1,4 +1,3 @@
-import { IProjectWithGroup } from './../../interfaces/Project';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { IGroup, IProject, IProjectsInitialState } from '../../interfaces/Project'
 import axios from '../../config/axios'
@@ -36,7 +35,7 @@ export const getSingleProject = createAsyncThunk(
             const groups = await axios.get('/group').then(res => res.data.result)
             const groupInProject = groups.find((group: IGroup) => group._id === projectData.group)
             const project = {...projectData, group: groupInProject}
-            console.log(project)
+            
             return {project, groups}
         } catch (err) {
             throw Error(err)
@@ -60,9 +59,24 @@ export const deleteProject = createAsyncThunk(
     'projects/deleteProject',
     async (id: string) => {
         try {
-            const deletedTask = await axios.delete(`/projects/${id}`)
+            const deletedProject = await axios.delete(`/projects/${id}`)
             
-            return deletedTask
+            return deletedProject
+        } catch (err) {
+            throw Error(err)
+        }
+    }
+)
+
+export const updateProject = createAsyncThunk(
+    'projects/updateProject',
+    async ({path, body}: {path: string, body: IProject}) => {
+        try {
+            const project = await axios.put(path, body).then(res => res.data.data)
+            const group = await axios.get(`/group/${project.group}`).then(res => res.data.group)
+            const updatedProject = {...project, group}
+
+            return updatedProject
         } catch (err) {
             throw Error(err)
         }
@@ -129,7 +143,20 @@ const ProjectsPageSlice = createSlice({
             state.loading = false;
             state.error = false
         });
-
+        builder.addCase(updateProject.pending, (state, action) => {
+            state.loading = true;
+            state.error = false
+        });
+        builder.addCase(updateProject.rejected, (state, action) => {
+            state.loading = false;
+            state.error = true
+        });
+        builder.addCase(updateProject.fulfilled, (state, action) => {
+            state.projects[state.projects.findIndex(el => el._id === action.payload._id)] = action.payload
+            state.displayedProject = action.payload
+            state.loading = false;
+            state.error = false
+        });
       }
   })
 
