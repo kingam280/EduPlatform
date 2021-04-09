@@ -5,11 +5,13 @@ import React, {
 import ProjectsList from './ProjectsList'
 import AddProject from './AddProject'
 import { Button } from '@material-ui/core'
-import './ProjectsPage.css'
 import { useAppDispatch } from '../../app/hooks'
 import { fetchProjects } from './ProjectsPageSlice'
+import useStyles from './useStyles'
 
 const ProjectsPage: React.FC = () => {
+    const classes = useStyles()
+
     const [shouldDisplayAddProject, setShouldDisplayAddProject] = useState(false)
 
     const handleOpenClick = () => {
@@ -23,9 +25,9 @@ const ProjectsPage: React.FC = () => {
     }, [dispatch])    
     
     return (
-        <div>
+        <div className={classes.projectsPage}>
             <h2>All projects</h2>
-            <Button onClick={handleOpenClick} variant="contained">+ New project</Button>
+            <Button onClick={handleOpenClick} variant="contained"  className={classes.addProjectBtn}>+ New project</Button>
             <ProjectsList />
             {shouldDisplayAddProject ? <AddProject shouldDisplayAddProject={shouldDisplayAddProject} setShouldDisplayAddProject={setShouldDisplayAddProject} /> : null}
         </div>

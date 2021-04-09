@@ -3,8 +3,11 @@ import { IProjectWithGroup } from '../../interfaces/Project'
 import { Button, TextField } from '@material-ui/core'
 import { useAppSelector } from '../../app/hooks'
 import Select from '@material-ui/core/Select';
+import useStyles from './useStyles'
 
 const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Function, header: string, projectData?: IProjectWithGroup}) => {
+    const classes = useStyles()
+
     const groups = useAppSelector(state => state.projects.groups)
     const [form, setForm] = useState({
         title: projectData?.title || '',
@@ -44,45 +47,46 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
     }
 
     return (
-        <div className="add-project-modal">
+        <div className={classes.projectsForm}>
                 <h2 id="simple-modal-title">{header}</h2>
                 <form onChange={handleFormChange} onSubmit={handleSubmit} className={"add-project-form"}>
                     <TextField 
-                        id="title" 
+                        id="title"
+                        className={classes.formInput} 
                         label="Title" 
                         variant="filled" 
                         defaultValue={projectData && projectData.title}
                         required 
                         fullWidth
-                        margin="dense"
                         />
                     <TextField 
                         id="description" 
+                        className={classes.formInput} 
                         label="Description" 
                         variant="filled" 
                         defaultValue={projectData && projectData.description}
                         required 
                         fullWidth
-                        margin="dense"
+                        multiline={true}
                         rows={4}
                         />
                     <TextField 
                         id="linkToDemo" 
+                        className={classes.formInput} 
                         label="Link to demo" 
                         variant="filled" 
                         defaultValue={projectData && projectData.linkToDemo}
                         required 
                         fullWidth
-                        margin="dense"
                         />
                     <TextField 
-                        id="linkToGitHub" 
+                        id="linkToGitHub"
+                        className={classes.formInput}  
                         label="Link to GitHub" 
                         variant="filled"
                         defaultValue={projectData && projectData.linkToGitHub}
                         required 
                         fullWidth
-                        margin="dense"
                         />
                         <Select
                             value={form.group}
@@ -90,6 +94,7 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                             labelId="demo-simple-select-filled-label"
                             label="Group"
                             id="demo-simple-select-filled"
+                            className={classes.formInput} 
                             variant="filled"
                             required 
                             fullWidth

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { IProject } from '../../interfaces/Project'
-import { Card, Modal, LinearProgress } from '@material-ui/core'
+import { Card, Modal, LinearProgress, IconButton } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import './ProjectInfo.css'
 import ProjectForm from './ProjectForm';
 import { getSingleProject, updateProject } from './ProjectsPageSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useHistory } from "react-router-dom";
+import useStyles from './useStyles'
 
 const ProjectCard: React.FC = () => {
+    const classes = useStyles()
+
     const [isEditing, setIsEditing] = useState(false)
     const dispatch = useAppDispatch()
     const history = useHistory()
@@ -40,9 +42,9 @@ const ProjectCard: React.FC = () => {
     }, [dispatch, path])
 
     return (
-        <Card className="project-info">
-            <ArrowBackIcon onClick={() => history.push('/projects')}/>
-            <EditIcon onClick={() => setIsEditing(true)}/>
+        <Card className={classes.projectCard}>
+            <IconButton className={classes.goBackBtn} onClick={() => history.push('/projects')} ><ArrowBackIcon /></IconButton>
+            <IconButton className={classes.editBtn} onClick={() => setIsEditing(true)} ><EditIcon /></IconButton>
             {isEditing &&
                 <Modal
                     open={isEditing}
@@ -54,12 +56,12 @@ const ProjectCard: React.FC = () => {
                 </Modal>}
                 {loading || !displayedProject ? <LinearProgress /> :
                 <> 
-                    <h2 className="project-info__title">{displayedProject.title}</h2>
-                    <p className="project-info__description">{displayedProject.description}</p>
-                    <p className="project-info__date"><span className="project-info-bold">Date:</span> {displayDate()}</p>
-                    <p className="project-info__group"><span className="project-info-bold">Group:</span> {displayedProject.group.groupName}</p>
-                    <p className="project-info__demo"><span className="project-info-bold">Demo:</span> {displayedProject.linkToDemo}</p>
-                    <p className="project-info__github"><span className="project-info-bold">GitHub:</span> {displayedProject.linkToGitHub}</p>
+                    <h2 className="project-info__title" >{displayedProject.title}</h2>
+                    <p className="project-info__description" >{displayedProject.description}</p>
+                    <p className="project-info__date" ><span className={classes.bold} >Date:</span> {displayDate()}</p>
+                    <p className="project-info__group" ><span className={classes.bold} >Group:</span> {displayedProject.group.groupName}</p>
+                    <p className="project-info__demo" ><span className={classes.bold} >Demo:</span> {displayedProject.linkToDemo}</p>
+                    <p className="project-info__github" ><span className={classes.bold} >GitHub:</span> {displayedProject.linkToGitHub}</p>
                 </>} 
         </Card>  
     )
