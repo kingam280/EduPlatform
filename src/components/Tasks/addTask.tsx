@@ -9,6 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
+import '../../styles/tasksStyles.css';
 
 const AddTask = () => {
     const users = useSelector( (state:RootState) => state.tasks.users)
@@ -57,12 +58,15 @@ const AddTask = () => {
             deadline: new Date(date).getTime()
         };
 
-        dispatch(addTaskToProject(data))
+        dispatch(addTaskToProject(data));
+        closeAddTask()
     };
 
     return (
         <React.Fragment>
-            <Button variant="outlined" color="primary" onClick={changeVisibilty}>Add task</Button>
+            <Button variant="outlined" color="primary" onClick={changeVisibilty} className='tasksBox__addBtn'>
+                Add task
+            </Button>
             <Dialog open={open} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add new task</DialogTitle>
                 <DialogContent>

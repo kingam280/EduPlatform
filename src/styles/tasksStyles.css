@@ -1,0 +1,33 @@
+.tasksBox {
+    margin: 2rem auto !important;
+    width: 100%;
+}
+
+.tasksBox__card {
+    height: 100%;
+}
+
+.tasksBox__subcard {
+    background-color: rgba(209, 201, 201, 0.212) !important;
+    margin: 0.5rem auto;
+}
+
+.tasksBox__subtitle {
+    font-size: 1.5rem !important;
+    margin: 0.5rem 0 !important;
+
+}
+
+.tasksBox__title {
+    font-size: 2rem !important;
+    margin: 1rem 0 !important;
+}
+
+.tasksBox__date {
+    font-size: 1rem !important;
+    margin: 0.5rem 0 !important
+}
+
+.tasksBox__addBtn {
+    margin: 0 auto !important;
+}

@@ -11,6 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
+import '../../styles/tasksStyles.css';
 
 interface userIcon {
     userName: string | null | undefined;
@@ -45,7 +46,8 @@ const UserIcon = ({userName, taskId}: userIcon) => {
             userId: user
         }
 
-        dispatch(updateUser(data))
+        dispatch(updateUser(data));
+        closeSelectUser()
     }
 
     return (
@@ -60,7 +62,7 @@ const UserIcon = ({userName, taskId}: userIcon) => {
                 </Fab>
             }
             <Dialog open={open} aria-labelledby="form-dialog-title" >
-                <DialogTitle id="form-dialog-title">Add new task</DialogTitle>
+                <DialogTitle id="form-dialog-title">Set task to user</DialogTitle>
                 <DialogContent>
                     <TextField
                         margin="dense"
@@ -83,7 +85,7 @@ const UserIcon = ({userName, taskId}: userIcon) => {
                         Cancel
                     </Button>
                     <Button color="primary" onClick={() => updateTaskUser(taskId)}>
-                        Add task
+                        Save changes
                     </Button>
                 </DialogActions>
             </Dialog>

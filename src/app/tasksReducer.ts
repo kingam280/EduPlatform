@@ -1,7 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from '../config/axios';
 import { RootState } from './store';
-import {UpdateUserData, TaskData, Task, Tasks, Users, TasksState} from '../interfaces/tasks';
+import {UpdateUserData, TaskData, Tasks, Users, TasksState} from '../interfaces/tasks';
 
 export const initialState:TasksState = {
     projectId: '606b6e5ff4aeb931b8ffe79e',
@@ -153,11 +153,7 @@ export const changeTaskStatus = createAsyncThunk(
 const tasksReducer = createSlice({
     name: 'tasks',
     initialState,
-    reducers: {
-        // changeTaskStatus (state, action) {
-        //     state.tasks[action.payload.id].done = action.payload.status
-        // },
-    },
+    reducers: { },
     extraReducers: builder => {
         builder.addCase(addTaskToProject.pending, (state, action) => {
             state.loading = true;
