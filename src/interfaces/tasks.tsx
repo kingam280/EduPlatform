@@ -42,3 +42,12 @@ export interface TasksState {
     loading: boolean,
     error: boolean
 }
+
+export interface TasksInterface {
+    tasks: Tasks
+}
+
+export interface AddTaskInterface {
+    users: Users,
+    project: string
+}

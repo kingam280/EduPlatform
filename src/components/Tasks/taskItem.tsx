@@ -12,7 +12,6 @@ interface taskProps {
 }
 
 const taskItem = ({name, deadline, user, id}: taskProps) => {
-    console.log(user)
     return (
         <Card id={id} variant="outlined" className= "tasksBox__subcard">
             <Grid container justify="space-between" alignItems="stretch">

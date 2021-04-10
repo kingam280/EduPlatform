@@ -1,24 +1,12 @@
-import React, {useEffect} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../app/rootReducer';
-import {fetchTasksByProject, fetchUsers} from '../../app/tasksReducer';
+import React from 'react';
+import {TasksInterface, Tasks} from '../../interfaces/tasks';
 import TaskItem from './taskItem';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import '../../styles/tasksStyles.css'
 
-const TaskList = () => {
-    const loading = useSelector((state:RootState) => state.tasks.loading)
-    const tasks = useSelector( (state:RootState) => state.tasks.tasks);
-    const project = useSelector( (state:RootState) => state.tasks.projectId)
-    const dispatch = useDispatch();
+const TaskList = ({tasks}:TasksInterface) => {
 
-    useEffect( () => {
-        dispatch(fetchTasksByProject(project));
-        dispatch(fetchUsers())
-    }, [project, dispatch]);
-
-    const projectTasks =  () => {
+    const projectTasks =  ( tasks:Tasks) => {
         return Object.keys(tasks).map( task => {
             return <TaskItem  key={task} 
                 id={task}
@@ -36,8 +24,7 @@ const TaskList = () => {
             <Typography variant="h4" align='center' className='tasksBox__title'>
                 All tasks for this project
             </Typography>
-            { loading ? <CircularProgress className='tasksBox__spinner'/> : 
-            projectTasks()}
+            { projectTasks(tasks)}
         </React.Fragment>
     )
 };

@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../app/rootReducer';
+import { useDispatch } from 'react-redux';
+import {TasksInterface} from '../../interfaces/tasks';
 import { changeTaskStatus } from '../../app/tasksReducer';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -9,12 +9,9 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import '../../styles/tasksStyles.css';
 
-const TasksStatus = () => {
-    const loading = useSelector((state:RootState) => state.tasks.loading);
-    const tasks = useSelector((state:RootState) => state.tasks.tasks);
+const TasksStatus = ({tasks}:TasksInterface) => {
     const dispatch = useDispatch();
 
     const changeStatus = (id:string) => {
@@ -47,11 +44,9 @@ const TasksStatus = () => {
                             <Typography variant="h4" align='center' className='tasksBox__title'>
                                 Tasks to do
                             </Typography>
-                            { loading ?  <CircularProgress className='tasksBox__spinner'/> : (
-                                <CardActions>
-                                    {listOfTasksByStatus(false)}   
-                                </CardActions>
-                            )}
+                            <CardActions>
+                                {listOfTasksByStatus(false)}   
+                            </CardActions>
                         </CardContent>
                     </Card>
                 </Grid>
@@ -61,11 +56,9 @@ const TasksStatus = () => {
                             <Typography variant="h4" align='center' className='tasksBox__title'>
                                 Finished tasks
                             </Typography>
-                            { loading ?  <CircularProgress className='tasksBox__spinner'/> : (
-                                <CardActions>
-                                    {listOfTasksByStatus(true)}   
-                                </CardActions>
-                            )}
+                            <CardActions>
+                                {listOfTasksByStatus(true)}   
+                            </CardActions>
                         </CardContent>
                     </Card>
                 </Grid>
