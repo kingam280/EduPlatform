@@ -1,0 +1,20 @@
+.add-project-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  padding: 10px;
+  background-color: white;
+}
+
+.add-project-form > * {
+  display: block;
+  margin: 5px 0;
+}
+
+.add-project-form > input,
+.add-project-form > textarea,
+.add-project-form > select {
+  width: 100%;
+}
