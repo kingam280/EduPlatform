@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../app/rootReducer';
+import { useDispatch } from 'react-redux';
+import { AddTaskInterface} from '../../interfaces/tasks';
 import { addTaskToProject } from '../../app/tasksReducer';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,9 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import '../../styles/tasksStyles.css';
 
-const AddTask = () => {
-    const users = useSelector( (state:RootState) => state.tasks.users)
-    const project = useSelector( (state:RootState) => state.tasks.projectId)
+const AddTask = ({users, project}:AddTaskInterface) => {
+
     const dispatch = useDispatch()
     const [open, setOpen] = useState<boolean>(false);
     const [task, setTask] = useState<string>('');
@@ -99,7 +98,7 @@ const AddTask = () => {
                         onChange={(e) => changeValue(e, 'user')}
                         value={user}
                     >
-                        {Object.keys(users).map( (user, index)  => {
+                        {Object.keys(users).map( (user)  => {
                             return <MenuItem key={user} value={user}>
                                 {`${users[user].firstName} ${users[user].lastName} (${users[user].role})`}
                             </MenuItem>

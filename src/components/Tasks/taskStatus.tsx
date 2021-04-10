@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../app/rootReducer';
+import { useDispatch } from 'react-redux';
+import {TasksInterface} from '../../interfaces/tasks';
 import { changeTaskStatus } from '../../app/tasksReducer';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -11,8 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import '../../styles/tasksStyles.css';
 
-const TasksStatus = () => {
-    const tasks = useSelector((state:RootState) => state.tasks.tasks);
+const TasksStatus = ({tasks}:TasksInterface) => {
     const dispatch = useDispatch();
 
     const changeStatus = (id:string) => {
@@ -58,7 +57,7 @@ const TasksStatus = () => {
                                 Finished tasks
                             </Typography>
                             <CardActions>
-                                {listOfTasksByStatus(true)}
+                                {listOfTasksByStatus(true)}   
                             </CardActions>
                         </CardContent>
                     </Card>
