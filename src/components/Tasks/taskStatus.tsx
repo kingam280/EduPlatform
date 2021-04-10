@@ -9,9 +9,11 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import '../../styles/tasksStyles.css';
 
 const TasksStatus = () => {
+    const loading = useSelector((state:RootState) => state.tasks.loading);
     const tasks = useSelector((state:RootState) => state.tasks.tasks);
     const dispatch = useDispatch();
 
@@ -45,9 +47,11 @@ const TasksStatus = () => {
                             <Typography variant="h4" align='center' className='tasksBox__title'>
                                 Tasks to do
                             </Typography>
-                            <CardActions>
-                                {listOfTasksByStatus(false)}   
-                            </CardActions>
+                            { loading ?  <CircularProgress className='tasksBox__spinner'/> : (
+                                <CardActions>
+                                    {listOfTasksByStatus(false)}   
+                                </CardActions>
+                            )}
                         </CardContent>
                     </Card>
                 </Grid>
@@ -57,9 +61,11 @@ const TasksStatus = () => {
                             <Typography variant="h4" align='center' className='tasksBox__title'>
                                 Finished tasks
                             </Typography>
-                            <CardActions>
-                                {listOfTasksByStatus(true)}
-                            </CardActions>
+                            { loading ?  <CircularProgress className='tasksBox__spinner'/> : (
+                                <CardActions>
+                                    {listOfTasksByStatus(true)}   
+                                </CardActions>
+                            )}
                         </CardContent>
                     </Card>
                 </Grid>

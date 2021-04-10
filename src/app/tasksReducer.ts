@@ -156,15 +156,12 @@ const tasksReducer = createSlice({
     reducers: { },
     extraReducers: builder => {
         builder.addCase(addTaskToProject.pending, (state, action) => {
-            state.loading = true;
             state.error = false
         });
         builder.addCase(addTaskToProject.rejected, (state, action) => {
             state.error = true;
-            state.loading = false
         });
         builder.addCase(addTaskToProject.fulfilled, (state,action) => {
-            state.loading = false;
             state.tasks = {...state.tasks, ...action.payload}
         });
         builder.addCase(removeTaskFromProject.fulfilled, (state, action) => {

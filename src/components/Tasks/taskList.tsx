@@ -4,19 +4,18 @@ import { RootState } from '../../app/rootReducer';
 import {fetchTasksByProject, fetchUsers} from '../../app/tasksReducer';
 import TaskItem from './taskItem';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import '../../styles/tasksStyles.css'
 
 const TaskList = () => {
+    const loading = useSelector((state:RootState) => state.tasks.loading)
     const tasks = useSelector( (state:RootState) => state.tasks.tasks);
     const project = useSelector( (state:RootState) => state.tasks.projectId)
     const dispatch = useDispatch();
 
     useEffect( () => {
-        dispatch(fetchUsers())
-    }, [dispatch])
-
-    useEffect( () => {
         dispatch(fetchTasksByProject(project));
+        dispatch(fetchUsers())
     }, [project, dispatch]);
 
     const projectTasks =  () => {
@@ -37,7 +36,8 @@ const TaskList = () => {
             <Typography variant="h4" align='center' className='tasksBox__title'>
                 All tasks for this project
             </Typography>
-            {projectTasks()}
+            { loading ? <CircularProgress className='tasksBox__spinner'/> : 
+            projectTasks()}
         </React.Fragment>
     )
 };

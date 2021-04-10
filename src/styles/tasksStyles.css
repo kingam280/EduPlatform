@@ -31,3 +31,11 @@
 .tasksBox__addBtn {
     margin: 0 auto !important;
 }
+
+.tasksBox__spinner {
+    margin: 2rem auto !important;
+    height: 10rem !important;
+    width: 10rem !important;
+    text-align: center !important;
+    display: block !important;
+}
