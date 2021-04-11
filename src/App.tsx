@@ -1,14 +1,24 @@
-import React from 'react';
 import './App.css';
-import {Provider} from 'react-redux';
-import store from './app/store';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import Announcements from './components/Announcements/Announcements';
+
 
 function App() {
   return (
-    <Provider store={store}>
-      <div className="App">
-      </div>
-    </Provider>
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route exact path="/announcement">
+            <Announcements/>
+          </Route>
+        </Switch>
+      </Router>
+      
+    </div>
   );
 }
 
