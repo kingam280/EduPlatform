@@ -35,11 +35,6 @@ const useStyles = makeStyles({
         margin: "0 2.5%"
     },
     projectsForm: {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '90%',
         padding: '10px',
         backgroundColor: 'white',
         "& h2": {

@@ -5,7 +5,7 @@ import { useAppSelector } from '../../app/hooks'
 import Select from '@material-ui/core/Select';
 import useStyles from './useStyles'
 
-const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Function, header: string, projectData?: IProjectWithGroup}) => {
+const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Function, header: string, projectData?: IProjectWithGroup} ) => {
     const classes = useStyles()
 
     const groups = useAppSelector(state => state.projects.groups)

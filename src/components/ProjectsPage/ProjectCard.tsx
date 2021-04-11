@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { IProject } from '../../interfaces/Project'
-import { Card, Modal, LinearProgress, IconButton } from '@material-ui/core'
+import { Card, Dialog, LinearProgress, IconButton } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ProjectForm from './ProjectForm';
@@ -46,14 +46,13 @@ const ProjectCard: React.FC = () => {
             <IconButton className={classes.goBackBtn} onClick={() => history.push('/projects')} ><ArrowBackIcon /></IconButton>
             <IconButton className={classes.editBtn} onClick={() => setIsEditing(true)} ><EditIcon /></IconButton>
             {isEditing &&
-                <Modal
+                <Dialog
                     open={isEditing}
                     onClose={handleClose}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
+                    aria-labelledby="form-dialog-title"
                     >  
                     <ProjectForm saveProject={saveProject} header="Edit project" projectData={displayedProject}/>
-                </Modal>}
+                </Dialog>}
                 {loading || !displayedProject ? <LinearProgress /> :
                 <> 
                     <h2 className="project-info__title" >{displayedProject.title}</h2>
