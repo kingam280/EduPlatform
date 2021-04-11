@@ -1,40 +1,44 @@
 import React, { FormEvent, useState } from 'react'
-import { projectInterface } from '../../interfaces/Project'
+import { IProjectWithGroup } from '../../interfaces/Project'
 import { Button, TextField } from '@material-ui/core'
+import { useAppSelector } from '../../app/hooks'
+import Select from '@material-ui/core/Select';
+import useStyles from './useStyles'
 
-const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Function, header: string, projectData?: projectInterface}) => {
+const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Function, header: string, projectData?: IProjectWithGroup}) => {
+    const classes = useStyles()
 
-    const [form, setForm] = useState(projectData || {
-        title: '',
-        description: '',
-        mentor: '',
-        authors: [],
-        linkToDemo: '',
-        linkToGitHub: ''
-    })
+    const groups = useAppSelector(state => state.projects.groups)
+    const [form, setForm] = useState({
+        title: projectData?.title || '',
+        description: projectData?.description || '',
+        linkToDemo: projectData?.linkToDemo || '',
+        linkToGitHub: projectData?.linkToGitHub || '', 
+        group: projectData?.group.groupName || ''
+        })
 
     const handleFormChange = (e: React.ChangeEvent<HTMLFormElement>) => {
-        if (e.target.id === "authors") {
-            const authors = Array.from(e.target.selectedOptions, (option: HTMLInputElement) => option.value)
-            setForm(prev => ({
-                ...prev,
-                [e.target.id]: authors
-            }))
-        } else {
-            setForm(prev => ({
-                ...prev,
-                [e.target.id]: e.target.value
-            }))
+        setForm(prev => ({
+            ...prev,
+            [e.target.id]: e.target.value
+        }))
         }     
+    
+
+    const handleSelectChange =  (e: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
+        setForm(prev => ({
+            ...prev,
+            group: e.target.value as string
+        }))
     }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const group = groups.find(group => group.groupName === form.group)!
         const body = {
             title: form.title,
             description: form.description,
-            mentor: form.mentor,
-            authors: form.authors,
+            group: group._id,
             linkToDemo: form.linkToDemo,
             linkToGitHub: form.linkToGitHub
         }
@@ -42,58 +46,61 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
     }
 
     return (
-        <div className="add-project-modal">
+        <div className={classes.projectsForm} >
                 <h2 id="simple-modal-title">{header}</h2>
                 <form onChange={handleFormChange} onSubmit={handleSubmit} className={"add-project-form"}>
                     <TextField 
-                        id="title" 
+                        id="title"
+                        className={classes.formInput} 
                         label="Title" 
                         variant="filled" 
                         defaultValue={projectData && projectData.title}
                         required 
                         fullWidth
-                        margin="dense"
                         />
                     <TextField 
                         id="description" 
+                        className={classes.formInput} 
                         label="Description" 
                         variant="filled" 
                         defaultValue={projectData && projectData.description}
                         required 
                         fullWidth
-                        margin="dense"
+                        multiline={true}
                         rows={4}
                         />
                     <TextField 
                         id="linkToDemo" 
+                        className={classes.formInput} 
                         label="Link to demo" 
                         variant="filled" 
                         defaultValue={projectData && projectData.linkToDemo}
                         required 
                         fullWidth
-                        margin="dense"
                         />
                     <TextField 
-                        id="linkToGitHub" 
+                        id="linkToGitHub"
+                        className={classes.formInput}  
                         label="Link to GitHub" 
                         variant="filled"
                         defaultValue={projectData && projectData.linkToGitHub}
                         required 
                         fullWidth
-                        margin="dense"
                         />
-                    <label htmlFor="mentor">Mentor</label>
-                    <select id="mentor" required>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                    </select>
-                    <label htmlFor="authors">Authors</label>
-                    <select id="authors" multiple required>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                        <option value="604a7b12d610101287aa2955">604a7b12d610101287aa2955</option>
-                    </select>
+                        <Select
+                            value={form.group}
+                            onChange={handleSelectChange}
+                            labelId="demo-simple-select-filled-label"
+                            label="Group"
+                            id="demo-simple-select-filled"
+                            className={classes.formInput} 
+                            variant="filled"
+                            required 
+                            fullWidth
+                            aria-required
+                            >
+                            {groups.map(group => <option value={group.groupName} key={group._id}>{group.groupName}</option>)}
+                        </Select>
                     <Button variant="contained" type="submit">Submit</Button>
                 </form>
             </div>

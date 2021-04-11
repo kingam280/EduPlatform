@@ -1,16 +1,19 @@
 import React from 'react'
-import Project from './Project'
-import { projectInterface } from '../../interfaces/Project'
+import ProjectItem from './ProjectItem'
+import { IProjectWithGroup } from '../../interfaces/Project'
 import { LinearProgress } from '@material-ui/core'
 import { useAppSelector } from '../../app/hooks'
+import useStyles from './useStyles'
 
 const ProjectsList = () => {
-    const projects: projectInterface[] = useAppSelector(state => state.projects.projects)
+    const classes = useStyles()
+
+    const projects: IProjectWithGroup[] = useAppSelector(state => state.projects.projects)
     const loading = useAppSelector(state => state.projects.loading)
 
     return (
-        <div>
-            {projects.length <=0 && loading ? <LinearProgress /> : projects.map(project => <Project data={project}  key={project._id}/>)}
+        <div className={classes.projectsList}>
+            {projects.length <=0 && loading ? <LinearProgress /> : projects.map(project => <ProjectItem data={project}  key={project._id}/>)}
         </div>
     )
 }

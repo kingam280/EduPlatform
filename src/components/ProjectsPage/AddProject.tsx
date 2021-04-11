@@ -1,31 +1,20 @@
 import React from 'react'
 import { Modal } from '@material-ui/core'
-import axios from '../../config/axios'
 import { useAppDispatch } from '../../app/hooks'
-import { fetchProjects } from './ProjectsPageSlice'
+import { addNewProject } from './ProjectsPageSlice'
 import ProjectForm from './ProjectForm'
-import { projectInterface } from '../../interfaces/Project'
+import { IProject, IAddProject } from '../../interfaces/Project'
 
-type shouldDisplay = {
-    shouldDisplayAddProject: boolean,
-    setShouldDisplayAddProject: (isTrue: boolean) => void
-}
-
-const AddProject = ({ shouldDisplayAddProject, setShouldDisplayAddProject }: shouldDisplay) => {
+const AddProject = ({ shouldDisplayAddProject, setShouldDisplayAddProject }: IAddProject) => {
     const dispatch = useAppDispatch()
 
     const handleClose = () => {
         setShouldDisplayAddProject(false);
     }
 
-    const saveProject =  (body: projectInterface) => {
-        axios
-            .post('/projects', body)
-            .then(res => {
-                dispatch(fetchProjects())
-                setShouldDisplayAddProject(false)
-            })
-            .catch(err => console.log(err))
+    const saveProject =  (body: IProject) => {
+        dispatch(addNewProject(body))
+        setShouldDisplayAddProject(false)
     }
 
     return (
