@@ -13,7 +13,7 @@ interface taskProps {
 
 const taskItem = ({name, deadline, user, id}: taskProps) => {
     return (
-        <Card id={id} variant="outlined" className= "tasksBox__subcard">
+        <Card id={id} className= "tasksBox__subcard">
             <Grid container justify="space-between" alignItems="stretch">
                 <CardContent>
                     <Typography variant="h5" className='tasksBox__subtitle'>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../app/rootReducer';
 import {TasksInterface} from '../../interfaces/tasks';
 import { changeTaskStatus } from '../../app/tasksReducer';
 import Grid from '@material-ui/core/Grid';
@@ -13,9 +14,14 @@ import '../../styles/tasksStyles.css';
 
 const TasksStatus = ({tasks}:TasksInterface) => {
     const dispatch = useDispatch();
+    const project = useSelector( (state:RootState) => state.projects.displayedProject)
 
     const changeStatus = (id:string) => {
-        dispatch(changeTaskStatus(id))
+        const data = {
+            taskId: id,
+            projectId: String(project)
+        }
+        dispatch(changeTaskStatus(data))
     }
     
     const listOfTasksByStatus = (status:boolean) => {
@@ -39,7 +45,7 @@ const TasksStatus = ({tasks}:TasksInterface) => {
         <React.Fragment>
             <Grid container spacing={1} justify="space-between" alignItems="stretch" className= 'tasksBox'>
                 <Grid item xs={12} sm={6}>
-                    <Card variant="outlined" className="tasksBox__card">
+                    <Card className="tasksBox__card">
                         <CardContent>
                             <Typography variant="h4" align='center' className='tasksBox__title'>
                                 Tasks to do
@@ -51,7 +57,7 @@ const TasksStatus = ({tasks}:TasksInterface) => {
                     </Card>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <Card variant="outlined" className="tasksBox__card">
+                    <Card className="tasksBox__card">
                         <CardContent>
                             <Typography variant="h4" align='center' className='tasksBox__title'>
                                 Finished tasks

@@ -1,6 +1,12 @@
 .tasksBox {
     margin: 2rem auto !important;
-    width: 100%;
+    width: 100% !important;
+}
+
+.tasksBox__container {
+    width: 90% !important;
+    min-width: 90% !important;
+    padding: 0 !important
 }
 
 .tasksBox__card {
@@ -15,12 +21,16 @@
 .tasksBox__subtitle {
     font-size: 1.5rem !important;
     margin: 0.5rem 0 !important;
+    font-weight: bold !important;
+    font-family:  "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
 
 }
 
 .tasksBox__title {
-    font-size: 2rem !important;
+    font-size: 1.5rem !important;
     margin: 1rem 0 !important;
+    font-weight: bold !important;
+    font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
 }
 
 .tasksBox__date {

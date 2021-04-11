@@ -63,7 +63,7 @@ const AddTask = ({users, project}:AddTaskInterface) => {
 
     return (
         <React.Fragment>
-            <Button variant="outlined" color="primary" onClick={changeVisibilty} className='tasksBox__addBtn'>
+            <Button variant="contained"  onClick={changeVisibilty} className='tasksBox__addBtn'>
                 Add task
             </Button>
             <Dialog open={open} aria-labelledby="form-dialog-title">
@@ -78,6 +78,7 @@ const AddTask = ({users, project}:AddTaskInterface) => {
                         fullWidth
                         onChange={(e) => changeValue(e, 'name')}
                         ref = {inputRef}
+                        variant="filled"  
                     />
                     <TextField
                         id="deadline"
@@ -88,6 +89,7 @@ const AddTask = ({users, project}:AddTaskInterface) => {
                         InputLabelProps={{
                         shrink: true,
                         }}
+                        variant="filled" 
                     />
                     <TextField
                         margin="dense"
@@ -97,6 +99,7 @@ const AddTask = ({users, project}:AddTaskInterface) => {
                         fullWidth
                         onChange={(e) => changeValue(e, 'user')}
                         value={user}
+                        variant="filled"
                     >
                         {Object.keys(users).map( (user)  => {
                             return <MenuItem key={user} value={user}>
@@ -106,10 +109,10 @@ const AddTask = ({users, project}:AddTaskInterface) => {
                     </TextField>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="primary" onClick={closeAddTask}>
+                    <Button variant="contained" onClick={closeAddTask}>
                         Cancel
                     </Button>
-                    <Button color="primary" onClick={addTask}>
+                    <Button variant="contained" onClick={addTask}>
                         Add task
                     </Button>
                 </DialogActions>

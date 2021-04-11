@@ -8,7 +8,8 @@ import './App.css';
 import {Provider} from 'react-redux';
 import store from './app/store';
 import ProjectCard from './components/ProjectsPage/ProjectCard';
-import ProjectsPage from './components/ProjectsPage/ProjectsPage'
+import ProjectsPage from './components/ProjectsPage/ProjectsPage';
+import Tasks from './components/Tasks/tasks';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             </Route>
             <Route path="/projects/:projectId">
               <ProjectCard />
+              <Tasks />
             </Route>
           </Switch>
         </Router>

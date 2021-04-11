@@ -9,34 +9,39 @@ import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import '../../styles/tasksStyles.css';
+import { useParams } from 'react-router';
+
+interface ParamTypes {
+  projectId: string
+}
 
 const Tasks = () => {
-
   const loading = useSelector((state:RootState) => state.tasks.loading)
   const tasks = useSelector( (state:RootState) => state.tasks.tasks);
-  const project = useSelector( (state:RootState) => state.tasks.projectId);
+  const project = useSelector( (state:RootState) => state.projects.displayedProject);
   const users = useSelector( (state:RootState) => state.tasks.users)
   const dispatch = useDispatch();
+  const {projectId} = useParams<ParamTypes>()
 
   useEffect( () => {
-      dispatch(fetchTasksByProject(project));
+      dispatch(fetchTasksByProject(projectId));
       dispatch(fetchUsers())
-  }, [project, dispatch]);
+  }, [dispatch]);
 
   return (
     <React.Fragment>
-        <Container>
-          {loading ? <CircularProgress className='tasksBox__spinner'/> :
+        <Container className="tasksBox__container">
+          {loading ? <LinearProgress/> :
           (<React.Fragment>
             <TasksStatus tasks={tasks}/>
-          <Card variant="outlined" className='tasksBox'>
+          <Card className='tasksBox'>
             <CardContent>
               <TaskList tasks={tasks}/>
             </CardContent>
             <CardActions>
-              <AddTask project={project} users={users}/>
+              <AddTask project={projectId} users={users}/>
             </CardActions>
           </Card>
           </React.Fragment>)}

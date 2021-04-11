@@ -1,10 +1,10 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from '../config/axios';
 import { RootState } from './store';
-import {UpdateUserData, TaskData, Tasks, Users, TasksState} from '../interfaces/tasks';
+import {UpdateUserData, TaskData, Tasks, Users, TasksState, ChangeTaskStatus } from '../interfaces/tasks';
 
 export const initialState:TasksState = {
-    projectId: '606b6e5ff4aeb931b8ffe79e',
+    // projectId: '606b6e5ff4aeb931b8ffe79e',
     tasks: {},
     users: {},
     loading: false,
@@ -17,7 +17,6 @@ export const fetchTasksByProject = createAsyncThunk(
         const tasks = axios.get(`/tasks/project/${projectId}`)
         .then( response => response.data)
         .then( data => {
-            console.log(data)
             let tasksList:Tasks= {};
             for (let task in data) {
                 const taskId:string = data[task]._id;
@@ -104,14 +103,13 @@ export const updateUser = createAsyncThunk(
     (data: UpdateUserData, {getState}) => {
         const store = getState() as RootState;
         const taskData = store.tasks.tasks[data.taskId];
-        const projectId = store.tasks.projectId;
         const user = store.tasks.users[data.userId]
 
         const updatedTask:TaskData = {name: taskData.name,
                                             deadline: taskData.deadline,
                                             description: "some description",
                                             done: taskData.done,
-                                            projectId, 
+                                            projectId: data.projectId, 
                                             userId: data.userId};
 
         axios.put(`/tasks/${data.taskId}`, updatedTask)
@@ -127,24 +125,24 @@ export const updateUser = createAsyncThunk(
 
 export const changeTaskStatus = createAsyncThunk(
     'tasks/changeTaskStatus',
-    (taskId:string, {getState}) => {
+    (data:ChangeTaskStatus , {getState}) => {
         const store = getState() as RootState;
-        const taskData = store.tasks.tasks[taskId];
-        const projectId = store.tasks.projectId;
+        const taskData = store.tasks.tasks[data.taskId];
+        // const projectId = store.tasks.projectId;
 
         const updatedTask:TaskData = {name: taskData.name,
             deadline: taskData.deadline,
             description: "some description",
             done: !taskData.done,
-            projectId, 
+            projectId: data.projectId, 
             userId:  taskData.user!.userId};
 
-        axios.put(`/tasks/${taskId}`, updatedTask)
+        axios.put(`/tasks/${data.taskId}`, updatedTask)
         .then( response => console.log(response.data))
         .catch( error => console.log(error))
 
         return {
-            taskId: taskId,
+            taskId: data.taskId,
             done: !taskData.done
         }
     }

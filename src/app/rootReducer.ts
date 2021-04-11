@@ -3,7 +3,7 @@ import projects from '../components/ProjectsPage/ProjectsPageSlice';
 import tasksReducer from './tasksReducer';
 
 const rootReducer = combineReducers({
-    projects,
+    projects: projects,
     tasks: tasksReducer
 })
 

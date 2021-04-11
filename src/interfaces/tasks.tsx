@@ -1,6 +1,7 @@
 export interface UpdateUserData {
     taskId: string,
-    userId: string
+    userId: string,
+    projectId: string
 }
 
 export interface TaskData {
@@ -36,7 +37,6 @@ export interface Users {
 }
 
 export interface TasksState {
-    projectId: string,
     tasks: Tasks,
     users: Users,
     loading: boolean,
@@ -50,4 +50,9 @@ export interface TasksInterface {
 export interface AddTaskInterface {
     users: Users,
     project: string
+}
+
+export interface ChangeTaskStatus {
+    taskId: string,
+    projectId: string
 }

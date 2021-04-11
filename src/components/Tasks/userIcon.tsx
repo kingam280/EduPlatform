@@ -20,6 +20,7 @@ interface userIcon {
 
 const UserIcon = ({userName, taskId}: userIcon) => {
     const users = useSelector( (state:RootState) => state.tasks.users);
+    const projectId = useSelector( (state:RootState) => state.projects.displayedProject)
     const [open, setOpen] = useState<boolean>(false);
     const [user, setUser] = useState<string>('');
     const dispatch = useDispatch();
@@ -43,7 +44,8 @@ const UserIcon = ({userName, taskId}: userIcon) => {
     const updateTaskUser = (id:string) => {
         const data = {
             taskId: id,
-            userId: user
+            userId: user,
+            projectId: String(projectId)
         }
 
         dispatch(updateUser(data));
@@ -72,6 +74,7 @@ const UserIcon = ({userName, taskId}: userIcon) => {
                         fullWidth
                         onChange={(e) => changeValue(e)}
                         value={user}
+                        variant="filled"
                     >
                         {Object.keys(users).map( (user, index)  => {
                             return <MenuItem key={user} value={user}>
@@ -81,10 +84,10 @@ const UserIcon = ({userName, taskId}: userIcon) => {
                     </TextField>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="primary" onClick={closeSelectUser}>
+                    <Button variant="contained" onClick={closeSelectUser}>
                         Cancel
                     </Button>
-                    <Button color="primary" onClick={() => updateTaskUser(taskId)}>
+                    <Button variant="contained" onClick={() => updateTaskUser(taskId)}>
                         Save changes
                     </Button>
                 </DialogActions>
