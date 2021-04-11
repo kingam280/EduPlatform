@@ -42,12 +42,11 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
             linkToDemo: form.linkToDemo,
             linkToGitHub: form.linkToGitHub
         }
-        console.log(body)
         await saveProject(body) 
     }
 
     return (
-        <div className={classes.projectsForm}>
+        <div className={classes.projectsForm} >
                 <h2 id="simple-modal-title">{header}</h2>
                 <form onChange={handleFormChange} onSubmit={handleSubmit} className={"add-project-form"}>
                     <TextField 
@@ -98,10 +97,9 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
                             variant="filled"
                             required 
                             fullWidth
-                            margin="dense"
                             aria-required
                             >
-                            {groups.map(group => <option value={group.groupName}>{group.groupName}</option>)}
+                            {groups.map(group => <option value={group.groupName} key={group._id}>{group.groupName}</option>)}
                         </Select>
                     <Button variant="contained" type="submit">Submit</Button>
                 </form>

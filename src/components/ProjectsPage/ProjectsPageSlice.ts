@@ -1,3 +1,4 @@
+import { IProjectWithGroup } from './../../interfaces/Project';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { IGroup, IProject, IProjectsInitialState } from '../../interfaces/Project'
 import axios from '../../config/axios'
@@ -20,7 +21,8 @@ export const fetchProjects = createAsyncThunk(
                 const group = groups.find( (group: IGroup) => group._id === project.group)
                 return {...project, group}
             })
-            return {projects, groups}
+            const sortedProjects = projects.sort((a: IProjectWithGroup, b: IProjectWithGroup) => b.timestamp - a.timestamp)
+            return {sortedProjects, groups}
         } catch (err) {
             return err.response.data
         }
@@ -97,7 +99,7 @@ const ProjectsPageSlice = createSlice({
             state.error = true
         });
         builder.addCase(addNewProject.fulfilled, (state, action) => {
-            state.projects = [...state.projects, action.payload]
+            state.projects = [action.payload, ...state.projects]
             state.loading = false;
             state.error = false
             state.displayedProject = undefined
@@ -123,7 +125,7 @@ const ProjectsPageSlice = createSlice({
             state.error = true
         });
         builder.addCase(fetchProjects.fulfilled, (state, action) => {
-            state.projects = action.payload.projects
+            state.projects = action.payload.sortedProjects
             state.groups = action.payload.groups
             state.displayedProject = undefined
             state.loading = false;

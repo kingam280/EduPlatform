@@ -30,7 +30,7 @@ const ProjectItem = ({ data } : { data: IProjectWithGroup }) => {
     return (
         <AppBar position='relative' color='default' className={classes.projectsItem}>
             <h3>{data.title}</h3>
-            <p>Group: {data.group.groupName}</p>
+            <p>{data.group.groupName}</p>
             <IconButton onClick={handleRemoveProjectClick} className={classes.removeBtn}><DeleteIcon /></IconButton>
             <IconButton onClick={handleGoToProjectClick} className={classes.infoBtn}><InfoIcon /></IconButton>
         </AppBar>
