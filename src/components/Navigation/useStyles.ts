@@ -23,6 +23,9 @@ const useStyles = makeStyles({
         textDecoration: `none`,
         textTransform: `uppercase`,
         color: `black`,
+    },
+    navDisplayMobile: {
+        display: 'block'
     }
 })
 

@@ -10,14 +10,14 @@ import store from './app/store';
 import ProjectCard from './components/ProjectsPage/ProjectCard';
 import ProjectsPage from './components/ProjectsPage/ProjectsPage';
 import Tasks from './components/Tasks/tasks';
-import Navbar from './components/Navigation/navBar';
+import Menu from './components/Navigation/menu';
 
 function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <Navbar />
         <Router>
+          <Menu />
           <Switch>
             <Route exact path="/projects">
               <ProjectsPage />

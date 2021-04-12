@@ -1,48 +1,41 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import { List, ListItem, ListItemText, Hidden } from "@material-ui/core"
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import { NavLink } from 'react-router-dom';
+import { List, ListItem, ListItemText} from "@material-ui/core";
 import useStyles from './useStyles';
-import SideDrawer from './sideDrawer';
+import {NavbarInterface} from '../../interfaces/navigation';
 
-const Navbar  = () => {
-    const classes = useStyles()
-
-    const navLinks = [
-        { title: `about us`, path: `/about-us` },
-        { title: `product`, path: `/product` },
-        { title: `blog`, path: `/blog` },
-        { title: `contact`, path: `/contact` },
-        { title: `faq`, path: `/faq` },
-      ]
+const Navbar = ({auth, mobile}:NavbarInterface) => {
+    const classes = useStyles();
 
     return (
-        <AppBar>
-            <Toolbar>
-                <Container className={classes.navbarDisplayFlex} maxWidth="lg">
-                    <Typography variant='h6'>
-                        EduPlatform
-                    </Typography>
-                    <Hidden smDown>
-                        <List component="nav" aria-labelledby="main navigation" className={classes.navDisplayFlex}>
-                            {navLinks.map(({ title, path }) => (
-                            <a href={path} key={title} className={classes.linkText}>
-                                <ListItem button>
-                                    <ListItemText primary={title} />
-                                </ListItem>
-                            </a>
-                        ))}
-                        </List>
-                    </Hidden>
-                    <Hidden mdUp> 
-                        <SideDrawer />
-                    </Hidden>
-                </Container>
-            </Toolbar>
-        </AppBar>
+    <React.Fragment>
+        {auth ? (
+            <List component="nav" aria-labelledby="main navigation" className={!mobile ? classes.navDisplayFlex: classes.navDisplayMobile}>
+                <NavLink to='/announcements' className={mobile? classes.linkTextDrawer : classes.linkText}>
+                    <ListItem button>
+                        <ListItemText primary="Announcements" />
+                    </ListItem>
+                </NavLink>
+                <NavLink to='/projects' exact className={mobile? classes.linkTextDrawer : classes.linkText}>
+                    <ListItem button>
+                        <ListItemText primary="Projects" />
+                    </ListItem>
+                </NavLink>
+                <NavLink to='/groups' className={mobile? classes.linkTextDrawer : classes.linkText}>
+                    <ListItem button>
+                        <ListItemText primary="Groups" />
+                    </ListItem>
+                </NavLink>
+                <NavLink to='/' className={mobile? classes.linkTextDrawer : classes.linkText}>
+                    <ListItem button>
+                        <ListItemText primary="LogOut" />
+                    </ListItem>
+                </NavLink>
+            </List>
+            ) 
+            : null }
+    </React.Fragment>
     )
-}
+};
 
 export default Navbar

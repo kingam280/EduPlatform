@@ -1,16 +1,9 @@
 import React, {useState} from 'react';
-import { IconButton } from "@material-ui/core"
-import { Menu } from "@material-ui/icons"
+import IconButton from "@material-ui/core/IconButton"
+import Menu from "@material-ui/icons/Menu"
 import useStyles from './useStyles';
-import { List, ListItem, ListItemText, Drawer  } from "@material-ui/core";
-
-const navLinks = [
-    { title: `about us`, path: `/about-us` },
-    { title: `product`, path: `/product` },
-    { title: `blog`, path: `/blog` },
-    { title: `contact`, path: `/contact` },
-    { title: `faq`, path: `/faq` },
-  ]
+import Drawer from "@material-ui/core/Drawer";
+import Navbar from './navbar';
 
 const SideDrawer = () => {
     const classes = useStyles();
@@ -20,29 +13,16 @@ const SideDrawer = () => {
         setState(!state)
       }
 
-      const sideDrawerList = () => (
-          <List component="nav">
-            {navLinks.map(({ title, path }) => (
-              <a href={path} key={title} className={classes.linkTextDrawer}>
-                <ListItem button>
-                  <ListItemText primary={title} />
-                </ListItem>
-              </a>
-            ))}
-          </List>
-      );
-
     return (
         <React.Fragment>
-            <IconButton edge="start" aria-label="menu" onClick={toggleDrawer}>
+            <IconButton edge="start" aria-label="menu" onClick={toggleDrawer} className={classes.linkText}>
             <Menu />
             </IconButton>
             <Drawer
                 anchor="right"
                 open={state}
-                onClose={toggleDrawer}
-            >
-                {sideDrawerList()}
+                onClose={toggleDrawer}>
+                <Navbar auth={true} mobile={true} />
             </Drawer>
         </React.Fragment>
     )
