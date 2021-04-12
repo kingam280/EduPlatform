@@ -20,7 +20,6 @@ interface ParamTypes {
 const Tasks = () => {
   const loading = useSelector((state:RootState) => state.tasks.loading)
   const tasks = useSelector( (state:RootState) => state.tasks.tasks);
-  const project = useSelector( (state:RootState) => state.projects.displayedProject);
   const users = useSelector( (state:RootState) => state.tasks.users)
   const dispatch = useDispatch();
   const {projectId} = useParams<ParamTypes>()
