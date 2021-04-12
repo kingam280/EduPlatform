@@ -2,12 +2,9 @@ import Fab from '@material-ui/core/Fab';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { useDispatch } from 'react-redux';
 import {removeTaskFromProject} from '../../app/tasksReducer';
+import {TaskDeleteInterface} from '../../interfaces/tasks';
 
-interface taskDelete {
-    id: string
-}
-
-const RemoveTask = ({id}:taskDelete) => {
+const RemoveTask = ({id}:TaskDeleteInterface) => {
 
     const dispatch = useDispatch();
 

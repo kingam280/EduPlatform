@@ -56,3 +56,23 @@ export interface ChangeTaskStatus {
     taskId: string,
     projectId: string
 }
+
+export interface ParamTypes {
+    projectId: string
+}
+
+export interface TaskDeleteInterface {
+    id: string
+}
+
+export interface TaskPropsInterface {
+    name: string,
+    deadline: number,
+    user?: string | null,
+    id: string
+}
+
+export interface UserIconInterface {
+    userName: string | null | undefined;
+    taskId: string
+}

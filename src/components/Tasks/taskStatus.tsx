@@ -10,9 +10,10 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import '../../styles/tasksStyles.css';
+import useStyles from './useStyles';
 
 const TasksStatus = ({tasks}:TasksInterface) => {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const project = useSelector( (state:RootState) => state.projects.displayedProject)
 
@@ -43,9 +44,9 @@ const TasksStatus = ({tasks}:TasksInterface) => {
 
     return (
         <React.Fragment>
-            <Grid container spacing={1} justify="space-between" alignItems="stretch" className= 'tasksBox'>
+            <Grid container spacing={1} justify="space-between" alignItems="stretch" className= {classes.tasksBox}>
                 <Grid item xs={12} sm={6}>
-                    <Card className="tasksBox__card">
+                    <Card className={classes.tasksBox__card}>
                         <CardContent>
                             <Typography variant="h4" align='center' className='tasksBox__title'>
                                 Tasks to do
@@ -57,9 +58,9 @@ const TasksStatus = ({tasks}:TasksInterface) => {
                     </Card>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <Card className="tasksBox__card">
+                    <Card className={classes.tasksBox__card}>
                         <CardContent>
-                            <Typography variant="h4" align='center' className='tasksBox__title'>
+                            <Typography variant="h4" align='center' className={classes.tasksBox__title}>
                                 Finished tasks
                             </Typography>
                             <CardActions>

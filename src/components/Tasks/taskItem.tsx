@@ -2,24 +2,20 @@ import RemoveTask from './removeTask';
 import UserIcon from './userIcon';
 import {Card, CardContent, CardActions, Grid} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import '../../styles/tasksStyles.css';
+import {TaskPropsInterface} from '../../interfaces/tasks';
+import useStyles from './useStyles';
 
-interface taskProps {
-    name: string,
-    deadline: number,
-    user?: string | null,
-    id: string
-}
 
-const taskItem = ({name, deadline, user, id}: taskProps) => {
+const TaskItem = ({name, deadline, user, id}: TaskPropsInterface) => {
+    const classes = useStyles();
     return (
-        <Card id={id} className= "tasksBox__subcard">
+        <Card id={id} className= {classes.tasksBox__subcard}>
             <Grid container justify="space-between" alignItems="stretch">
                 <CardContent>
-                    <Typography variant="h5" className='tasksBox__subtitle'>
+                    <Typography variant="h5" className={classes.tasksBox__subtitle}>
                         {name}
                     </Typography>
-                    <Typography variant="subtitle1" className='tasksBox__date'>
+                    <Typography variant="subtitle1" className={classes.tasksBox__date}>
                         Deadline: {new Date(deadline).toLocaleDateString()}
                     </Typography>
                 </CardContent>
@@ -32,4 +28,4 @@ const taskItem = ({name, deadline, user, id}: taskProps) => {
     )
 };
 
-export default taskItem
+export default TaskItem

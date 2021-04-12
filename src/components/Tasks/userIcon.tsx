@@ -11,14 +11,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
-import '../../styles/tasksStyles.css';
+import {UserIconInterface} from '../../interfaces/tasks';
 
-interface userIcon {
-    userName: string | null | undefined;
-    taskId: string
-}
-
-const UserIcon = ({userName, taskId}: userIcon) => {
+const UserIcon = ({userName, taskId}: UserIconInterface) => {
     const users = useSelector( (state:RootState) => state.tasks.users);
     const projectId = useSelector( (state:RootState) => state.projects.displayedProject)
     const [open, setOpen] = useState<boolean>(false);

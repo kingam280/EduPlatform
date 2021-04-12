@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 import {fetchTasksByProject, fetchUsers} from '../../app/tasksReducer';
+import {ParamTypes} from '../../interfaces/tasks';
 import TaskList from './taskList';
 import AddTask from './addTask';
 import TasksStatus from './taskStatus';
@@ -12,12 +13,10 @@ import CardActions from '@material-ui/core/CardActions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import '../../styles/tasksStyles.css';
 import { useParams } from 'react-router';
-
-interface ParamTypes {
-  projectId: string
-}
+import useStyles from './useStyles';
 
 const Tasks = () => {
+  const classes = useStyles();
   const loading = useSelector((state:RootState) => state.tasks.loading)
   const tasks = useSelector( (state:RootState) => state.tasks.tasks);
   const users = useSelector( (state:RootState) => state.tasks.users)
@@ -31,11 +30,11 @@ const Tasks = () => {
 
   return (
     <React.Fragment>
-        <Container className="tasksBox__container">
+        <Container className={classes.tasksBox__container}>
           {loading ? <LinearProgress/> :
           (<React.Fragment>
             <TasksStatus tasks={tasks}/>
-          <Card className='tasksBox'>
+          <Card className={classes.tasksBox}>
             <CardContent>
               <TaskList tasks={tasks}/>
             </CardContent>

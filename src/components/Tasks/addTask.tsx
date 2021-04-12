@@ -9,10 +9,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-import '../../styles/tasksStyles.css';
+import useStyles from './useStyles';
 
 const AddTask = ({users, project}:AddTaskInterface) => {
-
+    const classes = useStyles();
     const dispatch = useDispatch()
     const [open, setOpen] = useState<boolean>(false);
     const [task, setTask] = useState<string>('');
@@ -63,7 +63,7 @@ const AddTask = ({users, project}:AddTaskInterface) => {
 
     return (
         <React.Fragment>
-            <Button variant="contained"  onClick={changeVisibilty} className='tasksBox__addBtn'>
+            <Button variant="contained"  onClick={changeVisibilty} className={classes.tasksBox__addBtn}>
                 Add task
             </Button>
             <Dialog open={open} aria-labelledby="form-dialog-title">
