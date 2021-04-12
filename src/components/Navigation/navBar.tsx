@@ -1,10 +1,11 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { List, ListItem, ListItemText } from "@material-ui/core"
+import { List, ListItem, ListItemText, Hidden } from "@material-ui/core"
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import useStyles from './useStyles';
+import SideDrawer from './sideDrawer';
 
 const Navbar  = () => {
     const classes = useStyles()
@@ -24,15 +25,20 @@ const Navbar  = () => {
                     <Typography variant='h6'>
                         EduPlatform
                     </Typography>
-                    <List component="nav" aria-labelledby="main navigation" className={classes.navDisplayFlex}>
-                        {navLinks.map(({ title, path }) => (
-                        <a href={path} key={title} className={classes.linkText}>
-                            <ListItem button>
-                                <ListItemText primary={title} />
-                            </ListItem>
-                        </a>
-                    ))}
-                    </List>
+                    <Hidden smDown>
+                        <List component="nav" aria-labelledby="main navigation" className={classes.navDisplayFlex}>
+                            {navLinks.map(({ title, path }) => (
+                            <a href={path} key={title} className={classes.linkText}>
+                                <ListItem button>
+                                    <ListItemText primary={title} />
+                                </ListItem>
+                            </a>
+                        ))}
+                        </List>
+                    </Hidden>
+                    <Hidden mdUp> 
+                        <SideDrawer />
+                    </Hidden>
                 </Container>
             </Toolbar>
         </AppBar>

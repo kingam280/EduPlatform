@@ -15,6 +15,14 @@ const useStyles = makeStyles({
         textDecoration: `none`,
         textTransform: `uppercase`,
         color: `white`
+    },
+    list: {
+        width: 250,
+    },
+    linkTextDrawer: {
+        textDecoration: `none`,
+        textTransform: `uppercase`,
+        color: `black`,
     }
 })
 
