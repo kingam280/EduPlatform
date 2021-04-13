@@ -59,7 +59,7 @@ const UserIcon = ({userName, taskId}: UserIconInterface) => {
                 </Fab>
             }
             <Dialog open={open} aria-labelledby="form-dialog-title" >
-                <DialogTitle id="form-dialog-title">Set task to user</DialogTitle>
+                <DialogTitle id="form-dialog-title">Select user</DialogTitle>
                 <DialogContent>
                     <TextField
                         margin="dense"

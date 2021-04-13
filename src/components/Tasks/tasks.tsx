@@ -11,7 +11,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import '../../styles/tasksStyles.css';
 import { useParams } from 'react-router';
 import useStyles from './useStyles';
 

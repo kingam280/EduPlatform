@@ -48,7 +48,7 @@ const TasksStatus = ({tasks}:TasksInterface) => {
                 <Grid item xs={12} sm={6}>
                     <Card className={classes.tasksBox__card}>
                         <CardContent>
-                            <Typography variant="h4" align='center' className='tasksBox__title'>
+                            <Typography variant="h4" align='center' className={classes.tasksBox__title}>
                                 Tasks to do
                             </Typography>
                             <CardActions>

@@ -135,7 +135,7 @@ export const changeTaskStatus = createAsyncThunk(
             description: "some description",
             done: !taskData.done,
             projectId: data.projectId, 
-            userId:  taskData.user!.userId};
+            userId:  taskData.user? taskData.user.userId : undefined};
 
         axios.put(`/tasks/${data.taskId}`, updatedTask)
         .then( response => console.log(response.data))
