@@ -26,7 +26,7 @@ const Tasks = () => {
   useEffect( () => {
       dispatch(fetchTasksByProject(projectId));
       dispatch(fetchUsers())
-  }, [dispatch]);
+  }, [projectId, dispatch]);
 
   return (
     <React.Fragment>
