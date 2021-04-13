@@ -1,14 +1,23 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import ChangeForm from "./components/Authorization/ChangeForm"
 import './App.css';
-import {Provider} from 'react-redux';
-import store from './app/store';
 
 function App() {
   return (
-    <Provider store={store}>
-      <div className="App">
-      </div>
-    </Provider>
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route exact path="/authorization">
+            <ChangeForm />
+          </Route> 
+        </Switch>
+      </Router>
+    </div>
   );
 }
 
