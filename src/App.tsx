@@ -27,7 +27,7 @@ function App() {
               <ProjectCard />
               <Tasks />
             </Route>
-            <Route exact path="/authorization">
+            <Route exact path="/">
               <ChangeForm />
             </Route> 
           </Switch>

@@ -8,9 +8,12 @@ import useStyles from './useStyles';
 import SideDrawer from './sideDrawer';
 import Navbar from './navbar';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/rootReducer';
 
 const Menu  = () => {
-    const classes = useStyles()
+    const classes = useStyles();
+    const token = useSelector((state:RootState) => state.authorization.token)
 
     return (
         <AppBar>
@@ -24,7 +27,7 @@ const Menu  = () => {
                         </Button>
                     </NavLink>
                     <Hidden smDown>
-                        <Navbar auth={true} mobile={false}/>
+                        <Navbar auth={token ? true : false} mobile={false}/>
                     </Hidden>
                     <Hidden mdUp> 
                         <SideDrawer />
