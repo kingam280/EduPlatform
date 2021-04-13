@@ -24,7 +24,7 @@ function App() {
       <div className="App">
         <Router>
           <Menu />
-          {!token ? (
+          {token ? (
             <Switch>
               <Route exact path="/projects">
                 <ProjectsPage />
