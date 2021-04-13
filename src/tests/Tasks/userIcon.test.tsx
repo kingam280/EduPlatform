@@ -23,7 +23,7 @@ test('open dialog box', () => {
                 <UserIcon userName='' taskId='12345' />
             </Provider>);
     fireEvent.click(screen.getByRole('button'));
-    expect(screen.getByRole('heading')).toHaveTextContent('Set task to user')
+    expect(screen.getByRole('heading')).toHaveTextContent('Select user')
 })
 
 
