@@ -72,7 +72,17 @@ const useStyles = makeStyles({
         right: 0,
     },
     bold: {
-        fontWeight: "bold"
+        fontWeight: "bold",
+        paddingRight: "8px",
+    },
+    linkItem: {
+        display: "flex",
+    },
+    link: {
+        margin: "0 5px",
+        textDecoration: "none",
+        color: "black",
+        cursor: "pointer"
     }
 })
 

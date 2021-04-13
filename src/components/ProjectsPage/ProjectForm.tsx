@@ -34,6 +34,13 @@ const ProjectForm = ({ saveProject, header, projectData }: {saveProject: Functio
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const urlR = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+        if (!(form.linkToDemo).match(urlR) || !(form.linkToGitHub).match(urlR)) {
+            alert("Invalid link")
+            return
+        }
+        
         const group = groups.find(group => group.groupName === form.group)!
         const body = {
             title: form.title,

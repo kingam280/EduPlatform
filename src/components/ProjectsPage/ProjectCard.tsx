@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { IProject } from '../../interfaces/Project'
 import { Card, Dialog, LinearProgress, IconButton } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit';
+import LinkIcon from '@material-ui/icons/Link';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ProjectForm from './ProjectForm';
 import { getSingleProject, updateProject } from './ProjectsPageSlice';
@@ -26,6 +27,11 @@ const ProjectCard: React.FC = () => {
             const year = new Date(displayedProject.timestamp).getFullYear()
             return `${day < 10 ? `0` + day : day}/${month < 10 ? `0` + month : month}/${year}`
         }
+    }
+
+    const handleClick = (link: string) => {
+        if (link.includes("http")) window.open(link)
+        else window.open("https://" + link)
     }
 
     const handleClose = () => {
@@ -55,12 +61,12 @@ const ProjectCard: React.FC = () => {
                 </Dialog>}
                 {loading || !displayedProject ? <LinearProgress /> :
                 <> 
-                    <h2 className="project-info__title" >{displayedProject.title}</h2>
-                    <p className="project-info__description" >{displayedProject.description}</p>
-                    <p className="project-info__date" ><span className={classes.bold} >Date:</span> {displayDate()}</p>
-                    <p className="project-info__group" ><span className={classes.bold} >Group:</span> {displayedProject.group.groupName}</p>
-                    <p className="project-info__demo" ><span className={classes.bold} >Demo:</span> {displayedProject.linkToDemo}</p>
-                    <p className="project-info__github" ><span className={classes.bold} >GitHub:</span> {displayedProject.linkToGitHub}</p>
+                    <h2>{displayedProject.title}</h2>
+                    <p>{displayedProject.description}</p>
+                    <p><span className={classes.bold} >Date:</span> {displayDate()}</p>
+                    <p><span className={classes.bold} >Group:</span> {displayedProject.group.groupName}</p>
+                    <p className={classes.linkItem} ><span className={classes.bold} >Demo:</span> {displayedProject.linkToDemo} <LinkIcon className={classes.link} onClick={() => handleClick(displayedProject.linkToDemo)} /></p> 
+                    <p className={classes.linkItem} ><span className={classes.bold} >GitHub:</span> {displayedProject.linkToGitHub} <LinkIcon className={classes.link} onClick={() => handleClick(displayedProject.linkToGitHub)} /></p>
                 </>} 
         </Card>  
     )
