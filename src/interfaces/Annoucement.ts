@@ -1,5 +1,5 @@
 export interface announcementInterface {
-    _id: number,
+    _id?: string,
     title: string,
     content: string,
     type: string

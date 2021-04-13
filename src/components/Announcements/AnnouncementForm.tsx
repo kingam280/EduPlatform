@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -12,10 +12,15 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import { announcementInterface } from '../../interfaces/Annoucement'
 
 
 
-const AddAnnouncement = () => {
+const AnnouncementForm = ({ saveAnnouncement}: {saveAnnouncement: Function}) => {
+    const [title,setTitle] = useState("");
+    const [content,setContent] = useState("");
+    const [type,setType] = useState("");
+    
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -27,6 +32,16 @@ const AddAnnouncement = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const submitValue = async () => {
+    const newAnnouncement:announcementInterface = {
+      title: title,
+      content: content,
+      type: type
+    }
+    await saveAnnouncement(newAnnouncement)
+    handleClose()
+  }
 
     return (
         <div>
@@ -41,19 +56,26 @@ const AddAnnouncement = () => {
         >
           <DialogTitle id="responsive-dialog-title">{"Add Announcement"}</DialogTitle>
           <DialogContent>
-            <TextField id="standard-basic" label="Title" />
+            <TextField id="standard-basic" label="Title" onChange={e => setTitle(e.target.value)}/>
           </DialogContent>
           <DialogContent>
-            <TextField id="standard-basic" label="Content" />
+            <TextField id="standard-basic" label="Content" onChange={e => setContent(e.target.value)} />
           </DialogContent>
           <DialogContent>
-            <SelectType/>
+          <FormControl component="fieldset">
+        <FormLabel component="legend">Type</FormLabel>
+        <RadioGroup aria-label="type" name="type1" value={type} onChange={e => setType (e.target.value)}>
+          <FormControlLabel value="important" control={<Radio />} label="Important" />
+          <FormControlLabel value="exams" control={<Radio />} label="Exams" />
+          <FormControlLabel value="task" control={<Radio />} label="Task" />
+        </RadioGroup>
+      </FormControl>
           </DialogContent>
           <DialogActions>
             <Button autoFocus onClick={handleClose} color="primary">
               Cancle
             </Button>
-            <Button onClick={handleClose} color="primary" autoFocus>
+            <Button onClick={submitValue} color="primary" autoFocus>
               Add
             </Button>
           </DialogActions>
@@ -61,26 +83,9 @@ const AddAnnouncement = () => {
       </div>
      )
 }
-export default AddAnnouncement
+export default AnnouncementForm
 
- function SelectType() {
-    const [value, setValue] = React.useState('female');
-  
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValue((event.target as HTMLInputElement).value);
-    };
-  
-    return (
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Type</FormLabel>
-        <RadioGroup aria-label="type" name="type1" value={value} onChange={handleChange}>
-          <FormControlLabel value="important" control={<Radio />} label="Important" />
-          <FormControlLabel value="exams" control={<Radio />} label="Exams" />
-          <FormControlLabel value="task" control={<Radio />} label="Task" />
-        </RadioGroup>
-      </FormControl>
-    );
-  }
+
   
 
 
