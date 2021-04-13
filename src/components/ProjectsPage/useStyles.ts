@@ -35,11 +35,6 @@ const useStyles = makeStyles({
         margin: "0 2.5%"
     },
     projectsForm: {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '90%',
         padding: '10px',
         backgroundColor: 'white',
         "& h2": {
@@ -77,7 +72,17 @@ const useStyles = makeStyles({
         right: 0,
     },
     bold: {
-        fontWeight: "bold"
+        fontWeight: "bold",
+        paddingRight: "8px",
+    },
+    linkItem: {
+        display: "flex",
+    },
+    link: {
+        margin: "0 5px",
+        textDecoration: "none",
+        color: "black",
+        cursor: "pointer"
     }
 })
 

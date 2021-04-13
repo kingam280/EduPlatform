@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal } from '@material-ui/core'
+import { Dialog } from '@material-ui/core'
 import { useAppDispatch } from '../../app/hooks'
 import { addNewProject } from './ProjectsPageSlice'
 import ProjectForm from './ProjectForm'
@@ -18,14 +18,13 @@ const AddProject = ({ shouldDisplayAddProject, setShouldDisplayAddProject }: IAd
     }
 
     return (
-        <Modal
+        <Dialog
             open={shouldDisplayAddProject}
             onClose={handleClose}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
+            aria-labelledby="form-dialog-title"
         > 
             <ProjectForm saveProject={saveProject} header="Add new project" />
-        </Modal>
+        </Dialog>
     )
 }
 
