@@ -112,7 +112,7 @@ const AddTask = ({users, project}:AddTaskInterface) => {
                     <Button variant="contained" onClick={closeAddTask}>
                         Cancel
                     </Button>
-                    <Button variant="contained" onClick={addTask}>
+                    <Button variant="contained" onClick={addTask} disabled={ task.length >= 5  && date ? false : true}>
                         Add task
                     </Button>
                 </DialogActions>
