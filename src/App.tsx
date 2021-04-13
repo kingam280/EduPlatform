@@ -11,6 +11,7 @@ import ProjectCard from './components/ProjectsPage/ProjectCard';
 import ProjectsPage from './components/ProjectsPage/ProjectsPage';
 import Tasks from './components/Tasks/tasks';
 import Menu from './components/Navigation/menu';
+import ChangeForm from "./components/Authorization/ChangeForm"
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
               <ProjectCard />
               <Tasks />
             </Route>
+            <Route exact path="/authorization">
+              <ChangeForm />
+            </Route> 
           </Switch>
         </Router>
       </div>
