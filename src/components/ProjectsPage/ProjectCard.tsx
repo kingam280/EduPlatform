@@ -18,7 +18,7 @@ const ProjectCard: React.FC = () => {
     const history = useHistory()
 
     const { displayedProject, loading }= useAppSelector(state => state.projects)
-    const path = window.location.pathname
+    const path = window.location.pathname;
 
     const displayDate = () => {
         if (displayedProject) {
