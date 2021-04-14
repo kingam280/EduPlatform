@@ -7,6 +7,13 @@ import {NavbarInterface} from '../../interfaces/navigation';
 const Navbar = ({auth, mobile}:NavbarInterface) => {
     const classes = useStyles();
 
+    const submitLogout = (): void => {
+        if(typeof window !== "undefined") { 
+            window.localStorage.removeItem("token");
+            window.location.href = "/";
+        }
+    }
+
     return (
     <React.Fragment>
         {auth ? (
@@ -27,7 +34,10 @@ const Navbar = ({auth, mobile}:NavbarInterface) => {
                     </ListItem>
                 </NavLink>
                 <NavLink to='/' className={mobile? classes.linkTextDrawer : classes.linkText}>
-                    <ListItem button>
+                    <ListItem 
+                        button
+                        onClick={() => submitLogout()}
+                        >
                         <ListItemText primary="LogOut" />
                     </ListItem>
                 </NavLink>
