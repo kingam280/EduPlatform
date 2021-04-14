@@ -7,7 +7,6 @@ import { useState } from 'react';
 
 
 const DeleteAnnouncement = ({ id } : { id?: string }) => {
-    // const [test,deleteId] = useState(id);
     const announcementId = id;
     const dispatch = useAppDispatch()
 
