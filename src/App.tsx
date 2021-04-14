@@ -4,7 +4,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import './App.css';
+import ChangeForm from "./components/Authorization/ChangeForm"
 import {Provider} from 'react-redux';
 import store from './app/store';
 import ProjectCard from './components/ProjectsPage/ProjectCard';
@@ -42,7 +42,5 @@ function App() {
         </Router>
       </div>
     </Provider>
-  );
+  ); 
 }
-
-export default App
