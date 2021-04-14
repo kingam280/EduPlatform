@@ -33,6 +33,7 @@ export const LoginBox: React.FC = () => {
                     className={classes.textField}
                     onChange={(e) => setLogin(e.target.value)}
                     value={login}
+                    required
                 />
                 <TextField
                     label="Password"
@@ -40,6 +41,7 @@ export const LoginBox: React.FC = () => {
                     className={classes.textField}
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
+                    required
                 />   
                 <Button
                     variant="outlined"
