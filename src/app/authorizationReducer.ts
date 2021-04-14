@@ -6,6 +6,16 @@ interface ILogin {
     password: string
 }
 
+export interface IRegister {
+    firstName: string, 
+    lastName: string,
+    eMail: string, 
+    login: string, 
+    password: string,
+    confirmPassword: string,
+    role: string
+}
+
 export const submitLogin = createAsyncThunk(
     'authorization/submitLogin',
     async (data: ILogin) => {
@@ -17,15 +27,35 @@ export const submitLogin = createAsyncThunk(
     }
 );
 
+export const submitRegister = createAsyncThunk(
+    'authorization/submitRegister',
+    async (data: IRegister) => {
+        const register = axios.post(
+            `/authorization/register?firstName=${data.firstName}&lastName=${data.lastName}&email=${data.eMail}&login=${data.login}&password=${data.password}!123&role=${data.role}`
+        ).then( response => response.data ) 
+        .catch( err => console.error(err) )
+        return register
+    }
+)
+
 const authorizationSlice = createSlice({
     name: 'authorization',
     initialState: {
-        token: ""
+        token: "",
+        isCreated: false,
+        error: false,
     },
     reducers: { },
     extraReducers: builder => {
         builder.addCase(submitLogin.fulfilled, (state, action: PayloadAction<string>) => {
             state.token = action.payload
+        });
+        builder.addCase(submitRegister.fulfilled, (state, action: PayloadAction<string>) => {
+            state.isCreated = true
+        });
+        builder.addCase(submitRegister.rejected, (state, action) => {
+            state.isCreated = false
+            state.error = !state.error
         });
     }
 })

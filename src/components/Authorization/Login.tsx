@@ -20,7 +20,7 @@ export const LoginBox: React.FC = () => {
         if(window && (token !== "" && token !== undefined)) { 
             window.localStorage.setItem("token", JSON.stringify(token));
             window.setTimeout(() => {
-                window.location.href = "http://localhost:3000/EduPlatform";
+                window.location.href = "http://localhost:3000/announcements";
             }, 2000);
         }
     }
