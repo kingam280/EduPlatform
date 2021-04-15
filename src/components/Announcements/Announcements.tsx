@@ -19,8 +19,7 @@ const Announcements = () => {
 
     return (
         <div className ="container">
-
-            <div className = "header">  
+        <div className = "header">  
             <h2>ANNOUNCEMENTS</h2>
             </div>  
             <div className = "wrapper"><CreateAnnouncement/></div>
