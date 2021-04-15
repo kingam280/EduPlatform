@@ -15,6 +15,7 @@ import ChangeForm from "./components/Authorization/ChangeForm";
 import { useSelector } from 'react-redux';
 import { RootState } from './app/rootReducer';
 import Announcements from './components/Announcements/Announcements';
+import MentorGroupManagement from './components/groupManagement/mentorGroupManagement';
 
 function App() {
 
@@ -37,11 +38,19 @@ function App() {
               <Route exact path="/announcements">
             <Announcements/>
           </Route>
+              <Route path="/groupMentor">
+                <MentorGroupManagement />
+              </Route>
             </Switch>
           ) 
-          : ( <Route exact path="/">
+          : ( <Switch>
+              <Route exact path="/">
                 <ChangeForm />
               </Route> 
+              <Route path="/groupMentor">
+                <MentorGroupManagement />
+              </Route>
+              </Switch>
           )}
         </Router>
       </div>
