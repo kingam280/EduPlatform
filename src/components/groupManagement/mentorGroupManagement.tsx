@@ -5,7 +5,7 @@ import { User } from '../../types/user';
 import useGetData from '../../hooks/useGetData';
 import { Groups } from '../../types/groups';
 
-export const MentorGroupManagement = () => {
+function MentorGroupManagement() {
     const groups = useGetData<Groups>('group');
     const mentors = useGetMentors('authorization');
     const users = useGetData<User[]>('authorization')
@@ -17,3 +17,5 @@ export const MentorGroupManagement = () => {
         </>
     );
 }
+
+export default MentorGroupManagement;
