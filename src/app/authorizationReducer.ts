@@ -19,7 +19,7 @@ export interface IRegister {
 export const submitLogin = createAsyncThunk(
     'authorization/submitLogin',
     async (data: ILogin) => {
-        const login = axios.post(`/authorization/login?login=${data.login}&password=${data.password}`)
+        const login = await axios.post(`/authorization/login?login=${data.login}&password=${data.password}`)
         .then( response => response.data)
         .then( data => { return data })
         .catch( err => console.error(err) )
@@ -31,7 +31,7 @@ export const submitRegister = createAsyncThunk(
     'authorization/submitRegister',
     async (data: IRegister) => {
         const register = axios.post(
-            `/authorization/register?firstName=${data.firstName}&lastName=${data.lastName}&email=${data.eMail}&login=${data.login}&password=${data.password}!123&role=${data.role}`
+            `/authorization/register?firstName=${data.firstName}&lastName=${data.lastName}&email=${data.eMail}&login=${data.login}&password=${data.password}&role=${data.role}`
         ).then( response => response.data ) 
         .catch( err => console.error(err) )
         return register
