@@ -38,7 +38,7 @@ export const RegisterBox: React.FC = () => {
         data.password = password
         data.role = role
         dispatch(submitRegister(data))
-        window.location.href = "https://eduplatformcc.herokuapp.com/"
+        //window.location.href = "https://eduplatformcc.herokuapp.com/"
     }
 
     return(
