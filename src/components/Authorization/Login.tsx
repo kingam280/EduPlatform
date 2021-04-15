@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -17,13 +17,12 @@ export const LoginBox: React.FC = () => {
     const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         dispatch(submitLogin({login, password}));
-
-        if(typeof window !== "undefined" && (token !== "" && token !== undefined)) { 
-            console.log('hadsjaAS')
-            window.localStorage.setItem("token", JSON.stringify(token));
-            window.location.href = "https://eduplatformcc.herokuapp.com/announcements";
-        }
     }
+
+    useEffect(() => {
+        console.log(token)
+        if (token) window.location.href = "/announcements"
+    }, [token])
  
     return(
         <form className={classes.formLogin} method="POST" onSubmit={e => submitHandler(e)}>
