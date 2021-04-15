@@ -1,16 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import IconButton from "@material-ui/core/IconButton"
 import Menu from "@material-ui/icons/Menu"
 import useStyles from './useStyles';
 import Drawer from "@material-ui/core/Drawer";
 import Navbar from './navbar';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../app/rootReducer';
 
 const SideDrawer = () => {
     const classes = useStyles();
     const [state, setState] = useState(false);
-    const token = useSelector((state:RootState) => state.authorization.token)
+    const [token, setToken] = useState<string | null>(null)
+	
+    useEffect(() => {
+        setToken(localStorage.getItem("token"))
+    }, [])
 
     const toggleDrawer = () => {
         setState(!state)
