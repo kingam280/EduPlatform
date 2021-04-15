@@ -18,10 +18,10 @@ export const LoginBox: React.FC = () => {
         e.preventDefault();
         dispatch(submitLogin({login, password}));
         if(window && (token !== "" && token !== undefined)) { 
-            window.localStorage.setItem("token", JSON.stringify(token));
+            window.localStorage.setItem("token", "true");
             window.setTimeout(() => {
-                window.location.href = "http://localhost:3000/announcements";
-            }, 2000);
+                window.location.href = "https://eduplatformcc.herokuapp.com/announcements";
+            }, 5000);
         }
     }
  
