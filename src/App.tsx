@@ -39,9 +39,14 @@ function App() {
               </Route>
             </Switch>
           ) 
-          : ( <Route exact path="/">
+          : ( <Switch>
+              <Route exact path="/">
                 <ChangeForm />
               </Route> 
+              <Route path="/groupMentor">
+                <MentorGroupManagement />
+              </Route>
+              </Switch>
           )}
         </Router>
       </div>
