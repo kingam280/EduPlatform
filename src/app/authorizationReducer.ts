@@ -21,7 +21,10 @@ export const submitLogin = createAsyncThunk(
     async (data: ILogin) => {
         const login = await axios.post(`/authorization/login?login=${data.login}&password=${data.password}`)
         .then( response => response.data)
-        .then( data => { return data })
+        .then( data => {
+            window.localStorage.setItem("token", JSON.stringify(data));
+            return data
+        })
         .catch( err => console.error(err) )
         return login
     }
@@ -55,7 +58,7 @@ const authorizationSlice = createSlice({
         });
         builder.addCase(submitRegister.rejected, (state, action) => {
             state.isCreated = false
-            state.error = !state.error
+            state.error = true
         });
     }
 })

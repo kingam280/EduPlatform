@@ -8,12 +8,15 @@ import useStyles from './useStyles';
 import SideDrawer from './sideDrawer';
 import Navbar from './navbar';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../app/rootReducer';
+import {useState, useEffect} from 'react'
 
 const Menu  = () => {
     const classes = useStyles();
-    const token = useSelector((state:RootState) => state.authorization.token)
+    const [token, setToken] = useState<string | null>(null)
+	
+    useEffect(() => {
+        setToken(localStorage.getItem("token"))
+    }, [])
 
     return (
         <AppBar>
