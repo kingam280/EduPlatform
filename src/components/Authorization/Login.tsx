@@ -17,11 +17,11 @@ export const LoginBox: React.FC = () => {
     const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         dispatch(submitLogin({login, password}));
-        if(window && (token !== "" && token !== undefined)) { 
-            window.localStorage.setItem("token", "true");
-            window.setTimeout(() => {
-                window.location.href = "https://eduplatformcc.herokuapp.com/announcements";
-            }, 5000);
+
+        if(typeof window !== "undefined" && (token !== "" && token !== undefined)) { 
+            console.log('hadsjaAS')
+            window.localStorage.setItem("token", JSON.stringify(token));
+            window.location.href = "https://eduplatformcc.herokuapp.com/announcements";
         }
     }
  
