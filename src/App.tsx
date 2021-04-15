@@ -14,6 +14,7 @@ import Menu from './components/Navigation/menu';
 import ChangeForm from "./components/Authorization/ChangeForm";
 import { useSelector } from 'react-redux';
 import { RootState } from './app/rootReducer';
+import MentorGroupManagement from './components/groupManagement/mentorGroupManagement';
 
 function App() {
 
@@ -33,11 +34,19 @@ function App() {
                 <ProjectCard />
                 <Tasks />
               </Route>
+              <Route path="/groupMentor">
+                <MentorGroupManagement />
+              </Route>
             </Switch>
           ) 
-          : ( <Route exact path="/">
+          : ( <Switch>
+              <Route exact path="/">
                 <ChangeForm />
               </Route> 
+              <Route path="/groupMentor">
+                <MentorGroupManagement />
+              </Route>
+              </Switch>
           )}
         </Router>
       </div>
