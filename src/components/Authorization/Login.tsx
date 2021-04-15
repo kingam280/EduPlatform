@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -17,13 +17,12 @@ export const LoginBox: React.FC = () => {
     const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         dispatch(submitLogin({login, password}));
-        if(window && (token !== "" && token !== undefined)) { 
-            window.localStorage.setItem("token", JSON.stringify(token));
-            window.setTimeout(() => {
-                window.location.href = "http://localhost:3000/EduPlatform";
-            }, 2000);
-        }
     }
+
+    useEffect(() => {
+        console.log(token)
+        if (token) window.location.href = "/announcements"
+    }, [token])
  
     return(
         <form className={classes.formLogin} method="POST" onSubmit={e => submitHandler(e)}>
@@ -33,6 +32,7 @@ export const LoginBox: React.FC = () => {
                     className={classes.textField}
                     onChange={(e) => setLogin(e.target.value)}
                     value={login}
+                    required
                 />
                 <TextField
                     label="Password"
@@ -40,6 +40,7 @@ export const LoginBox: React.FC = () => {
                     className={classes.textField}
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
+                    required
                 />   
                 <Button
                     variant="outlined"
