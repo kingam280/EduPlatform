@@ -56,3 +56,15 @@ There is also possibility to add task by click on button below.
 
 ![addTask snipped](src/assets/addTask.JPG)
 
+## Announcements
+
+Announcements are displayed in a form of list. Every announcement card contains information such title,content and type, for example: Important. Every card also contains delete button. Delete button  remove announcement from base. On the top of the page there is button witch  allows to add new announcement. 
+
+![announcements list snipped](src/assets/announcementsList.JPG)
+
+When filling in the form, there need to be provided the title and content.  Also one of the three types need to be choose. Announcemnt is added by submit button. Click outside of its area of form cancel the operation.
+
+![announcement form snipped](src/assets/announcementForm.JPG)
+
+
+
