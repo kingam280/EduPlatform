@@ -12,6 +12,8 @@ import ProjectsPage from './components/ProjectsPage/ProjectsPage';
 import Tasks from './components/Tasks/tasks';
 import Menu from './components/Navigation/menu';
 import { RootState } from './app/rootReducer';
+import Announcements from './components/Announcements/Announcements';
+import MentorGroupManagement from './components/groupManagement/mentorGroupManagement';
 
 function App() {
 
@@ -31,11 +33,22 @@ function App() {
                 <ProjectCard />
                 <Tasks />
               </Route>
+              <Route exact path="/announcements">
+            <Announcements/>
+          </Route>
+              <Route path="/groupMentor">
+                <MentorGroupManagement />
+              </Route>
             </Switch>
           ) 
-          : ( <Route exact path="/">
+          : ( <Switch>
+              <Route exact path="/">
                 <ChangeForm />
               </Route> 
+              <Route path="/groupMentor">
+                <MentorGroupManagement />
+              </Route>
+              </Switch>
           )}
         </Router>
       </div>

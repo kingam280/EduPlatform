@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
     projectsPage: {
         padding: "2.5%",
+        marginTop: "65px",
         "& h2" : {
             textAlign: "center",
             textTransform: "uppercase",
@@ -51,7 +52,7 @@ const useStyles = makeStyles({
     projectCard: {
         position: "relative",
         width: "90%",
-        margin: "25px auto",
+        margin: "65px auto 25px",
         padding: "50px 5% 40px",
         "& h2": {
             textAlign: 'center'
