@@ -2,9 +2,8 @@ import axios from '../../config/axios'
 import { useAppDispatch } from '../../app/hooks'
 import { fetchAnnouncements } from './AnnouncementsSlice'
 import DeleteIcon from '@material-ui/icons/Delete';
-import Button from '@material-ui/core/Button';
-import { useState } from 'react';
-
+import useStyles from './useStyles'
+import IconButton from '@material-ui/core/IconButton';
 
 const DeleteAnnouncement = ({ id } : { id?: string }) => {
     const announcementId = id;
@@ -12,7 +11,7 @@ const DeleteAnnouncement = ({ id } : { id?: string }) => {
 
 
 const deleteAnnouncement =  () => {
-    console.log(announcementId)
+  
         axios
             .delete('/announcements/'+ announcementId)
             .then(res => {
@@ -20,16 +19,11 @@ const deleteAnnouncement =  () => {
             })
             .catch(err => console.log(err))
     }
+    const classes = useStyles()
 
     return (
-        <Button onClick={deleteAnnouncement}
-        variant="contained"
-        color="secondary"
-        startIcon={<DeleteIcon />}
-      >
-        Delete
-      </Button>
-
-    )
+        <IconButton className={classes.removeBtn} onClick={deleteAnnouncement}>
+       <DeleteIcon />
+      </IconButton>)
     }
 export default DeleteAnnouncement

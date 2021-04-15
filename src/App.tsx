@@ -34,7 +34,7 @@ function App() {
                 <ProjectCard />
                 <Tasks />
               </Route>
-              <Route exact path="/announcement">
+              <Route exact path="/announcements">
             <Announcements/>
           </Route>
             </Switch>

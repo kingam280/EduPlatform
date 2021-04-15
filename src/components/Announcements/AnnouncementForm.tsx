@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { announcementInterface } from '../../interfaces/Annoucement'
+import useStyles from './useStyles'
+import { Button, TextField } from '@material-ui/core'
 
 
 
@@ -22,8 +17,7 @@ const AnnouncementForm = ({ saveAnnouncement}: {saveAnnouncement: Function}) => 
     const [type,setType] = useState("");
     
   const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const classes = useStyles()
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,54 +27,70 @@ const AnnouncementForm = ({ saveAnnouncement}: {saveAnnouncement: Function}) => 
     setOpen(false);
   };
 
-  const submitValue = async () => {
+  const submitValue = async (e:any) => {
+    e.preventDefault();
     const newAnnouncement:announcementInterface = {
       title: title,
       content: content,
       type: type
     }
     await saveAnnouncement(newAnnouncement)
+    
     handleClose()
   }
 
     return (
-        <div>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-         Add Announcement
+         <div className={classes.announcementForm}>
+           
+        <Button variant="contained"  className={classes.addAnnouncementBtn}onClick={handleClickOpen}>
+         + Add Announcement
         </Button>
-        <Dialog
-          fullScreen={fullScreen}
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="responsive-dialog-title"
-        >
-          <DialogTitle id="responsive-dialog-title">{"Add Announcement"}</DialogTitle>
-          <DialogContent>
-            <TextField id="standard-basic" label="Title" onChange={e => setTitle(e.target.value)}/>
-          </DialogContent>
-          <DialogContent>
-            <TextField id="standard-basic" label="Content" onChange={e => setContent(e.target.value)} />
-          </DialogContent>
-          <DialogContent>
-          <FormControl component="fieldset">
+                
+                
+                  <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"> 
+                  <div className = {classes.formContainer}>
+                  <h2 id="simple-modal-title"> Add new announcement</h2>
+                  
+                <form onSubmit={e => submitValue(e)} className={"add-announcement-form"}>
+                    <TextField 
+                        label="Title" 
+                        onChange={e => setTitle(e.target.value)}
+                        className={classes.formInput} 
+                        variant="filled" 
+                        
+                        required 
+                        fullWidth
+                        />
+                    <TextField 
+                       
+                        onChange={e => setContent(e.target.value)}
+                        className={classes.formInput} 
+                        label="Description" 
+                        variant="filled" 
+                      
+                        required 
+                        fullWidth
+                        multiline={true}
+                        rows={10}
+                        />
+                        <div><FormControl component="fieldset">
         <FormLabel component="legend">Type</FormLabel>
         <RadioGroup aria-label="type" name="type1" value={type} onChange={e => setType (e.target.value)}>
           <FormControlLabel value="important" control={<Radio />} label="Important" />
           <FormControlLabel value="exams" control={<Radio />} label="Exams" />
           <FormControlLabel value="task" control={<Radio />} label="Task" />
         </RadioGroup>
-      </FormControl>
-          </DialogContent>
-          <DialogActions>
-            <Button autoFocus onClick={handleClose} color="primary">
-              Cancle
-            </Button>
-            <Button onClick={submitValue} color="primary" autoFocus>
-              Add
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      </FormControl></div>
+    <div style= {{display:"flex", justifyContent:"center"}}>
+                    <Button type="submit" >Submit</Button>
+                    </div>
+                </form>
+                </div>
+                </Dialog>
+                
+            </div>
+
+           
      )
 }
 export default AnnouncementForm
